@@ -26,7 +26,7 @@ export class ClientsStore implements IClientsStore {
 
     async loadAll(): Promise<void> {
         try {
-            const response = await axios.get<IRenterResponse[]>("/data-service/renters/all");
+            const response = await axios.get<IRenterResponse[]>("/data-service/renters");
 
             runInAction(() => {
                 this.clientsList = response.data;

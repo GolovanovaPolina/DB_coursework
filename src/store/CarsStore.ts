@@ -24,7 +24,7 @@ export class CarsStore implements ICarsStore {
 
     async loadAll() {
         try {
-            const response = await axios.get<ICarResponse[]>("/data-service/cars/all");
+            const response = await axios.get<ICarResponse[]>("/data-service/cars");
 
             runInAction(() => {
                 this.carsList = response.data;

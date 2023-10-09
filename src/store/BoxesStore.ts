@@ -25,7 +25,7 @@ export class BoxesStore implements IBoxesStore {
 
     async loadAll(): Promise<void> {
         try {
-            const response = await axios.get<IBoxResponse[]>("/data-service/boxes/all");
+            const response = await axios.get<IBoxResponse[]>("/data-service/boxes");
 
             runInAction(() => {
                 this.boxesList = response.data;

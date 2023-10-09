@@ -19,7 +19,7 @@ export class ModelsStore implements IModelsStore {
 
     async loadAll(): Promise<void> {
         try {
-            const response = await axios.get("/data-service/models/all");
+            const response = await axios.get("/data-service/models");
 
             runInAction(() => {
                 this.modelsList = response.data;

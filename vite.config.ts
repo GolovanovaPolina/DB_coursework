@@ -9,9 +9,10 @@ export default ({ mode }) => {
         server: {
             proxy: {
                 "/data-service": {
-                    // target: "http://192.168.56.1:8081",
-                    target: "http://localhost:8081",
-                    rewrite: (path) => path.replace("/data-service", ""),
+                    target: "http://localhost:3000",
+                    changeOrigin: true,
+                    secure: false,
+                    rewrite: (path) => path.replace("/data-service/", ""),
                 },
             },
         },
