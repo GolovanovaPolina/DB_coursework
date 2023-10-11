@@ -1,11 +1,18 @@
 import {observer} from "mobx-react-lite";
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Navigation} from "./components/Navigation";
+import {WelcomePage} from "./containers/welcome/WelcomePage";
+import Boxes from "./containers/boxes/Boxes";
+import Clients from "./containers/clients/Clients";
+import Cars from "./containers/cars/Cars";
+import NewRent from "./containers/new_rent/NewRent";
+import Dashboard from "./containers/dashboard/Dashboard";
 
 const App = () => {
     return (
         <BrowserRouter>
-            {/*<Routes>
+            <Routes>
                 <Route path="/" element={<Navigation isShowMenu={false} />}>
                     <Route path="/" element={<WelcomePage />} />
                 </Route>
@@ -16,10 +23,7 @@ const App = () => {
                     <Route path="new-rent" element={<NewRent />} />
                     <Route path="statistics" element={<Dashboard />} />
                 </Route>
-            </Routes>*/}
-            <div>
-                Hello!
-            </div>
+            </Routes>
         </BrowserRouter>
     );
 };
