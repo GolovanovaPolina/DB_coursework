@@ -30,6 +30,6 @@ jobs:
 
     - name: Test
       run: |
-        npx json-server --watch db.json
-        yarn test
+        npx json-server --watch db.json;
+        yarn test;
 
