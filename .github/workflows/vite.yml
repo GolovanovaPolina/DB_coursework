@@ -28,8 +28,6 @@ jobs:
     - name: Build
       run: yarn build
 
-    - name: Json-server
-      run: yarn json-server --watch db.json
     - name: Test
       run: yarn test
 
