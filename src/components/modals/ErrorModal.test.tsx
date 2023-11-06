@@ -2,7 +2,7 @@ import {render, screen} from '../../utils/utils'
 import ErrorModal from "./ErrorModal";
 
 describe('ErrorModal', async () => {
-    it('Отобразить окно', () => {
+    it('Отобразить окно ошибки', () => {
 
         const closeCallback = () => {}
         const text = "Ошибка";
@@ -14,7 +14,7 @@ describe('ErrorModal', async () => {
         expect(screen.getByText(text)).toBeInTheDocument();
     })
 
-    it('Не отображать окно', () => {
+    it('Не отображать окно ошибки', () => {
 
         const closeCallback = () => {}
         const text = "Ошибка";
