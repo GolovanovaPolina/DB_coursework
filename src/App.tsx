@@ -11,20 +11,22 @@ import Dashboard from "./containers/dashboard/Dashboard";
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Navigation isShowMenu={false} />}>
-                    <Route path="/" element={<WelcomePage />} />
-                </Route>
-                <Route path="/" element={<Navigation isShowMenu={true} />}>
-                    <Route path="boxes" element={<Boxes />} />
-                    <Route path="clients" element={<Clients />} />
-                    <Route path="cars" element={<Cars />} />
-                    <Route path="new-rent" element={<NewRent />} />
-                    <Route path="statistics" element={<Dashboard />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
+        <React.StrictMode>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Navigation isShowMenu={false} />}>
+                        <Route path="/" element={<WelcomePage />} />
+                    </Route>
+                    <Route path="/" element={<Navigation isShowMenu={true} />}>
+                        <Route path="boxes" element={<Boxes />} />
+                        <Route path="clients" element={<Clients />} />
+                        <Route path="cars" element={<Cars />} />
+                        <Route path="new-rent" element={<NewRent />} />
+                        <Route path="statistics" element={<Dashboard />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </React.StrictMode>
     );
 };
 
