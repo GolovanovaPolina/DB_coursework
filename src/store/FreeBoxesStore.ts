@@ -29,7 +29,7 @@ export class FreeBoxesStore implements IBoxesStore {
                 this.freeBoxesList = response.data;
             })*/
 
-            const response = await axios.get<IBoxResponse[]>(`/data-service/boxes/free`);
+            const response = await axios.get<IBoxResponse[]>(`/data-service/boxes`);
             const boxesList: IBoxResponse[] = response.data;
 
             runInAction(() => {
