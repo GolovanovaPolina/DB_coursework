@@ -1,12 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {Container} from "react-bootstrap";
 import {NavMenu} from "../../components/Navigation";
 
 export type WelcomePageProps = {};
 export const WelcomePage: React.FC<WelcomePageProps> = ({}) => {
-    const [subtitle, setSubtitle] = useState("");
     const text = "Добро пожаловать!";
-    let currentIndex = 0;
 
     return (
         <Container className={"welcome-page"} fluid>

@@ -3,37 +3,45 @@ import {Container, Nav, Navbar} from "react-bootstrap";
 import car from "../../assets/car.png";
 import {FC} from "react";
 
-export const NavMenu = () => (
-    <Nav variant="pills">
-        <Nav.Item as="li" className="fw-semibold">
-            <Nav.Link eventKey={"link-1"} as={Link} to="/boxes">
-                Боксы
-            </Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li" className="fw-semibold">
-            <Nav.Link eventKey={"link-2"} as={Link} to="/clients">
-                Клиенты
-            </Nav.Link>
-        </Nav.Item>
+export interface ISection {
+    text: string;
+    url: string;
+}
 
-        <Nav.Item as="li" className="fw-semibold">
-            <Nav.Link eventKey={"link-3"} as={Link} to="/cars">
-                Автомобили
-            </Nav.Link>
-        </Nav.Item>
+export const menu: ISection[] = [
+    {
+        text: "Боксы",
+        url: "/boxes"
+    },
+    {
+        text: "Клиенты",
+        url: "/clients"
+    },
+    {
+        text: "Автомобили",
+        url: "/cars"
+    },
+    {
+        text: "Новое бронирование",
+        url: "/new-rent"
+    },
+    {
+        text: "Статистика",
+        url: "/statistics"
+    },
+]
 
-        <Nav.Item as="li" className="fw-semibold">
-            <Nav.Link eventKey={"link-4"} as={Link} to="/new-rent">
-                Новое бронирование
-            </Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li" className="fw-semibold">
-            <Nav.Link eventKey={"link-5"} as={Link} to="/statistics">
-                Статистика
-            </Nav.Link>
-        </Nav.Item>
-    </Nav>
-);
+export const NavMenu = () => {
+    return (
+        <Nav variant="pills">
+            {menu.map(m => <Nav.Item as="li" className="fw-semibold">
+                <Nav.Link eventKey={"link-1"} as={Link} to={m.url}>
+                    {m.text}
+                </Nav.Link>
+            </Nav.Item>)}
+        </Nav>
+    );
+};
 
 interface INavigation {
     isShowMenu: boolean;
