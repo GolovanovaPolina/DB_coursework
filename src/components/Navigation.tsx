@@ -34,10 +34,11 @@ export const menu: ISection[] = [
 export const NavMenu = () => {
     return (
         <Nav variant="pills">
-            {menu.map(m => <Nav.Item as="li" className="fw-semibold">
-                <Nav.Link eventKey={"link-1"} as={Link} to={m.url}>
-                    {m.text}
-                </Nav.Link>
+            {menu.map((m, index) =>
+                <Nav.Item as="li" className="fw-semibold" key={index}>
+                    <Nav.Link eventKey={"link-1"} as={Link} to={m.url}>
+                        {m.text}
+                    </Nav.Link>
             </Nav.Item>)}
         </Nav>
     );

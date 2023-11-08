@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
 import {clientsTableColumns} from "../../data/data";
-import Table from "../../components/Table/Table";
+import Table from "../../components/table/Table";
 import {observer} from "mobx-react-lite";
 import {IRenterResponse} from "../../types/types";
 import ClientEditModal from "./ClientEditModal";

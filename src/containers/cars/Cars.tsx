@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
 import {Tooltip} from "../../components/Tooltip";
-import Table from "../../components/Table/Table";
+import Table from "../../components/table/Table";
 import {ICarResponse} from "../../types/types";
 import {carsTableColumns} from "../../data/data";
 import SuccessModal from "../../components/modals/SuccessModal";

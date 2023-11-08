@@ -2,6 +2,7 @@ import {render, screen} from "../../utils/utils";
 import {WelcomePage} from "./WelcomePage";
 import {menu} from "../../components/Navigation";
 import {BrowserRouter, useLocation} from "react-router-dom";
+import {act} from "@testing-library/react";
 
 export const LocationDisplay = () => {
     const location = useLocation()
@@ -10,14 +11,14 @@ export const LocationDisplay = () => {
 }
 
 describe('WelcomePage (module test)', async () => {
-    it('Отобразить страницу приветствия', () => {
+    it('Отобразить страницу приветствия', async () => {
 
         const text = "Добро пожаловать!";
 
-        render(
+        await act(async () => render(
             <WelcomePage/>,
             {wrapper: BrowserRouter}
-        )
+        ));
 
         expect(screen.getByText(text)).toBeInTheDocument();
         for (let section of menu) {
@@ -27,16 +28,15 @@ describe('WelcomePage (module test)', async () => {
 
     it('Перейти на страницу', async () => {
 
-        const route = '/'
-
-        render(
+        await act(async () => render(
             <WelcomePage/>,
             {wrapper: BrowserRouter}
-        )
+        ));
+
 
         for (let section of menu) {
             const el = screen.getByText(section.text);
-            el.click()
+            await act(() => el.click());
 
             expect(location.pathname.includes(section.url));
         }

@@ -3,7 +3,7 @@ import * as React from "react";
 import {FC, useEffect, useState} from "react";
 import {IBoxResponse} from "../../types/types";
 import {Button, Form, Modal} from "react-bootstrap";
-import Table from "../../components/Table/Table";
+import Table from "../../components/table/Table";
 import {boxTableColumns} from "../../data/data";
 import {observer} from "mobx-react-lite";
 

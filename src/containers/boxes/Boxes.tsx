@@ -1,17 +1,17 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
-import Table from "../../components/Table/Table";
+import {Col, Container, Row} from "react-bootstrap";
+import Table from "../../components/table/Table";
 import {boxTableColumns} from "../../data/data";
 import BoxCreateModal from "./NewBoxModal";
 import {observer} from "mobx-react-lite";
 import {IBoxResponse} from "../../types/types";
 import ErrorModal from "../../components/modals/ErrorModal";
 import SuccessModal from "../../components/modals/SuccessModal";
-import {Tooltip} from "../../components/Tooltip";
 import {IncreaseCostModal} from "./IncreaseCostModal";
 import {useStores} from "../../store/RootStore";
-import {FileMenuItem} from "../../components/FileMenuItem";
+import {FileMenuItemProps} from "../../components/FileMenuItem";
+import Toolbar, {ButtonData} from "../../components/toolbar/Toolbar";
 
 const Boxes = () => {
     const { boxesStore, filesStore } = useStores();
@@ -30,8 +30,8 @@ const Boxes = () => {
         setShowCreateBoxModal(false);
     };
 
-    const removeBoxClickHandler = () => {
-        boxesStore.deleteSelectedBox();
+    const removeBoxClickHandler = async () => {
+        await boxesStore.deleteSelectedBox();
     };
 
     const selectRowHandler = (index: number) => {
@@ -46,59 +46,49 @@ const Boxes = () => {
         setShowIncreaseCostModal(false);
     };
 
-    const getXMLPath = () => {};
+    const buttons: ButtonData[] = [
+        {
+            name: "Добавить бокс",
+            tooltip: "Добавить бокс",
+            onClick: createBoxClickHandler,
+            icon: "bi-plus-lg",
+            variant: "success"
+        },
+        {
+            name: "Удалить бокс",
+            tooltip: "Удалить выбранный бокс",
+            disabled: boxesStore.selectedBoxId === null,
+            onClick: createBoxClickHandler,
+            icon: "bi-trash",
+            variant: "danger"
+        },
+        {
+            name: "Изменить стоимость",
+            tooltip: "Изменить стоимость аренды всех боксов",
+            onClick: increaseCostClickHandler,
+            icon: "bi-pen",
+            variant: "outline-dark"
+        }
+    ];
+
+    const fileButtons: FileMenuItemProps[] = [
+        {
+            onClick: () => filesStore.loadXml("free_boxes", null),
+            title: "О пустых боксах",
+        },
+        {
+            onClick: () => filesStore.loadXml(`client_in_box`, { box_number: boxesStore.selectedBoxId }),
+            isDisabled: boxesStore.selectedBoxId === null,
+            title: "О клиенте, занимающем выбранный бокс",
+        },
+    ];
+
 
     return (
         <>
             <Container>
                 <Row className="my-4">
-                    <ButtonToolbar>
-                        <Tooltip text="Добавить бокс">
-                            <Button variant="success" className="me-2" onClick={createBoxClickHandler}>
-                                <i className="bi-plus-lg"></i>
-                            </Button>
-                        </Tooltip>
-                        <Tooltip text="Удалить выбранный бокс">
-                            <Button
-                                variant="danger"
-                                disabled={boxesStore.selectedBoxId === null}
-                                data-bs-toggle="tooltip"
-                                data-bs-html="true"
-                                title="<em>Подсказка</em>"
-                                className="me-2"
-                                onClick={removeBoxClickHandler}
-                            >
-                                <i className="bi-trash" />
-                            </Button>
-                        </Tooltip>
-                        <Tooltip text="Изменить стоимость аренды всех боксов">
-                            <Button variant="outline-dark" className="me-2" onClick={increaseCostClickHandler}>
-                                <i className="bi-pen" />
-                            </Button>
-                        </Tooltip>
-
-                        <Dropdown>
-                            <Tooltip text="Получить справку">
-                                <Dropdown.Toggle variant="outline-dark" className="me-2">
-                                    <i className="bi bi-filetype-xls"></i>
-                                </Dropdown.Toggle>
-                            </Tooltip>
-
-                            <Dropdown.Menu className={"mt-1"}>
-                                <FileMenuItem
-                                    title={"О пустых боксах"}
-                                    onClick={() => filesStore.loadXml("free_boxes", null)}
-                                />
-                                <FileMenuItem
-                                    title={"О клиенте, занимающем выбранный бокс"}
-                                    isDisabled={boxesStore.selectedBoxId === null}
-                                    onClick={() =>
-                                        filesStore.loadXml(`client_in_box`, { box_number: boxesStore.selectedBoxId })
-                                    }
-                                />
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </ButtonToolbar>
+                    <Toolbar buttons={buttons} fileButtons={fileButtons}/>
                 </Row>
                 <Row>
                     <Col>
