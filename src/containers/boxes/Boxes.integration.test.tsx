@@ -2,22 +2,26 @@ import {render, screen} from '../../utils/utils'
 import Boxes from "./Boxes";
 import {act} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
+import {RootStore, StoresContext} from "../../store/RootStore";
+
 
 describe('Boxes (integration tests)', async () => {
     it('Кнопка удаления активируется при выборе строки', async () => {
         await act(async () => render(
-            <Boxes/>,
-            {wrapper: BrowserRouter}
+            <StoresContext.Provider value={new RootStore()}>
+                <Boxes/>
+            </StoresContext.Provider>, {wrapper: BrowserRouter}
+
         ))
 
         const btn = screen.getByRole('button', {name: /удалить/i});
         expect(btn).toBeDisabled();
 
-        /*const row = await screen.findByRole("row");
+        const row = await screen.findByRole("row");
         await row.click();
 
         btn.click();
-        expect(await screen.findByRole("dialog")).toBeInTheDocument();*/
+        expect(await screen.findByRole("dialog")).toBeInTheDocument();
 
     })
 
@@ -28,7 +32,6 @@ describe('Boxes (integration tests)', async () => {
         ))
 
         const btn = screen.getByRole('button', {name: /добавить/i});
-
         await act(async () => btn.click());
 
         expect(await screen.findByRole("dialog")).toBeInTheDocument();

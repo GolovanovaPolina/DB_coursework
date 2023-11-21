@@ -33,6 +33,6 @@ export class RootStore {
     }
 }
 
-const StoresContext = createContext(new RootStore());
+export const StoresContext = createContext(new RootStore());
 
 export const useStores = () => useContext(StoresContext);
