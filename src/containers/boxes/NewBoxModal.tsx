@@ -1,6 +1,6 @@
 import * as React from "react";
 import {FC, useEffect, useState} from "react";
-import {Button, Form, FormControl, FormGroup, FormLabel, Modal} from "react-bootstrap";
+import {Button, Form, FormControl, Modal} from "react-bootstrap";
 import {IBoxCreate, IOption} from "../../types/types";
 import CreatableSelect from "react-select/creatable";
 import {observer} from "mobx-react-lite";
@@ -138,47 +138,52 @@ const CreateBoxModal: FC<IModal> = ({ show, closeCallback }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form noValidate onSubmit={onSubmit}>
-                    <FormGroup className="mb-3">
-                        <FormLabel className="required">Номер бокса</FormLabel>
-                        <FormControl
-                            name="box_number"
-                            value={data.box_number || ""}
-                            onChange={(e) => onChangeNumberInput(e.target.name, e.target.value)}
-                            isInvalid={!!errors.box_number}
-                            type="text"
-                            autoComplete={"off"}
-                        />
-                        <FormControl.Feedback type="invalid">{errors.box_number}</FormControl.Feedback>
-                    </FormGroup>
+                    <Form.Group className="mb-3">
+                        <Form.Label className = "w-100">Номер бокса <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <Form.Control
+                                name="box_number"
+                                value={data.box_number || ""}
+                                onChange={(e) => onChangeNumberInput(e.target.name, e.target.value)}
+                                isInvalid={!!errors.box_number}
+                                type="text"
+                                autoComplete={"off"}
+                            />
+                        </Form.Label>
 
-                    <FormGroup className="mb-3">
-                        <FormLabel className="required">Модель</FormLabel>
-                        <CreatableSelect
-                            formatCreateLabel={(inputText) => `Добавить "${inputText}"`}
-                            styles={modelCustomStyles}
-                            isClearable
-                            onChange={(newValue) => onChangeSelect("model", newValue)}
-                            onCreateOption={(newValue) => onChangeSelect("model", newValue)}
-                            value={data.model}
-                            options={models}
-                        />
+                        <Form.Control.Feedback type="invalid">{errors.box_number}</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label className = "w-100">Модель <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <CreatableSelect
+                                formatCreateLabel={(inputText) => `Добавить "${inputText}"`}
+                                styles={modelCustomStyles}
+                                isClearable
+                                onChange={(newValue) => onChangeSelect("model", newValue)}
+                                onCreateOption={(newValue) => onChangeSelect("model", newValue)}
+                                value={data.model}
+                                options={models}
+                            />
+                        </Form.Label>
                         {errors.model && (
                             <div style={{ color: "#dc3545", fontSize: ".875em", marginTop: "5px" }}>{errors.model}</div>
                         )}
-                    </FormGroup>
+                    </Form.Group>
 
-                    <FormGroup className="mb-3">
-                        <FormLabel className="required">Стоимость (руб/сутки) </FormLabel>
-                        <FormControl
-                            name={"daily_cost"}
-                            value={data.daily_cost || ""}
-                            onChange={(e) => onChangeNumberInput(e.target.name, e.target.value)}
-                            isInvalid={!!errors.daily_cost}
-                            type="text"
-                            autoComplete={"off"}
-                        />
+                    <Form.Group className="mb-3">
+                        <Form.Label className = "w-100">Стоимость (руб/сутки) <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <Form.Control
+                                name={"daily_cost"}
+                                value={data.daily_cost || ""}
+                                onChange={(e) => onChangeNumberInput(e.target.name, e.target.value)}
+                                isInvalid={!!errors.daily_cost}
+                                type="text"
+                                autoComplete={"off"}
+                            />
+                        </Form.Label>
+
                         <FormControl.Feedback type="invalid">{errors.daily_cost}</FormControl.Feedback>
-                    </FormGroup>
+                    </Form.Group>
                     <Button type="submit" className={"me-2"}>
                         Отправить
                     </Button>

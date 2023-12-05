@@ -35,13 +35,14 @@ export const IncreaseCostModal: FC<IModal> = ({ show, closeCallback }) => {
                         <Form.Label>
                             Введите количество раз (можно дробное), в которое необходимо увеличить / уменьшить
                             стоимость:{" "}
+                            <Form.Control
+                                type="number"
+                                step="0.1"
+                                onChange={onCoefficientChangeHandler}
+                                value={coefficient}
+                            />
                         </Form.Label>
-                        <Form.Control
-                            type="number"
-                            step="0.1"
-                            onChange={onCoefficientChangeHandler}
-                            value={coefficient}
-                        />
+
                     </Form.Group>
                     <Button type="submit">Отправить</Button>
                 </Form>

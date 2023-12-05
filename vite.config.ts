@@ -7,7 +7,6 @@ export default ({ mode }) => {
     return defineConfig({
         plugins: [react()],
         server: {
-            port: 3000,
             proxy: {
                 "/data-service": {
                     target: "http://127.0.0.1:8081",

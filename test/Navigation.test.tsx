@@ -1,8 +1,8 @@
-import {render, screen} from "../../utils/utils";
-import {WelcomePage} from "./WelcomePage";
 import {BrowserRouter} from "react-router-dom";
 import {act} from "@testing-library/react";
-import {ISection} from "../../components/Navigation";
+import {render, screen} from "../src/utils/utils"
+import {WelcomePage} from "../src/containers/welcome/WelcomePage";
+import {ISection} from "../src/components/Navigation";
 
 export const menu: ISection[] = [
     {
@@ -27,19 +27,20 @@ export const menu: ISection[] = [
     },
 ]
 
-describe('WelcomePage (module test)', async () => {
-    it('Отобразить страницу приветствия', async () => {
-
-        const text = "Добро пожаловать!";
+describe('Navigation (integration test)', async () => {
+    it('Перейти на страницу с главной страницы', async () => {
 
         await act(async () => render(
             <WelcomePage/>,
             {wrapper: BrowserRouter}
         ));
 
-        expect(screen.getByText(text)).toBeInTheDocument();
+
         for (let section of menu) {
-            expect(screen.getByText(section.text)).toBeInTheDocument();
+            const el = screen.getByText(section.text);
+            await act(() => el.click());
+
+            expect(location.pathname.includes(section.url));
         }
     })
 })
