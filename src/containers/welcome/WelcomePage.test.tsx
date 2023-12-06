@@ -2,7 +2,7 @@ import {render, screen} from "../../utils/utils";
 import {WelcomePage} from "./WelcomePage";
 import {BrowserRouter} from "react-router-dom";
 import {act} from "@testing-library/react";
-import {ISection} from "../../components/Navigation";
+import {ISection} from "../../components/navigation/Navigation";
 
 export const menu: ISection[] = [
     {

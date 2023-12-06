@@ -1,7 +1,7 @@
 import {observer} from "mobx-react-lite";
 import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Navigation} from "./components/Navigation";
+import {Navigation} from "./components/navigation/Navigation";
 import {WelcomePage} from "./containers/welcome/WelcomePage";
 import Boxes from "./containers/boxes/Boxes";
 import Clients from "./containers/clients/Clients";

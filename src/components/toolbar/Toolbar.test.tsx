@@ -2,7 +2,7 @@ import {render, screen} from '../../utils/utils'
 import {act, fireEvent} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
 import Toolbar, {ButtonData} from "./Toolbar";
-import {FileMenuItemProps} from "../FileMenuItem";
+import {FileMenuItemProps} from "./FileMenuItem";
 
 const buttons: ButtonData[] = [
     {

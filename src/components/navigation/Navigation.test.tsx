@@ -1,8 +1,8 @@
 import {BrowserRouter} from "react-router-dom";
 import {act} from "@testing-library/react";
-import {render, screen} from "../src/utils/utils"
-import {WelcomePage} from "../src/containers/welcome/WelcomePage";
-import {ISection} from "../src/components/Navigation";
+import {render, screen} from "../../utils/utils"
+import {WelcomePage} from "../../containers/welcome/WelcomePage";
+import {ISection} from "./Navigation";
 
 export const menu: ISection[] = [
     {
@@ -44,3 +44,6 @@ describe('Navigation (integration test)', async () => {
         }
     })
 })
+
+
+// добавить переход с других страниц и проверку выделения.

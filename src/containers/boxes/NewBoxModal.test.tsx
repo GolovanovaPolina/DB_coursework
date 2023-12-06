@@ -28,7 +28,7 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 
-describe('NewBoxModal (module tests)', async () => {
+describe('NewBoxModal ', async () => {
 
     it('Открылось окно добавления бокса', async () => {
 

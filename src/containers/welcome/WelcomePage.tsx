@@ -1,6 +1,6 @@
 import React from "react";
 import {Container} from "react-bootstrap";
-import {NavMenu} from "../../components/Navigation";
+import {NavMenu} from "../../components/navigation/Navigation";
 
 export type WelcomePageProps = {};
 export const WelcomePage: React.FC<WelcomePageProps> = ({}) => {

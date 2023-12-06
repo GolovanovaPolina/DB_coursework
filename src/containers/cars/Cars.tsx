@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
-import {Tooltip} from "../../components/Tooltip";
+import {Tooltip} from "../../components/toolbar/Tooltip";
 import Table from "../../components/table/Table";
 import {ICarResponse} from "../../types/types";
 import {carsTableColumns} from "../../data/data";
@@ -9,7 +9,7 @@ import ErrorModal from "../../components/modals/ErrorModal";
 import {useStores} from "../../store/RootStore";
 import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
-import {FileMenuItem} from "../../components/FileMenuItem";
+import {FileMenuItem} from "../../components/toolbar/FileMenuItem";
 
 export type CarsProps = {};
 const Cars: React.FC<CarsProps> = ({}) => {

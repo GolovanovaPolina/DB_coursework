@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
-import car from "../../assets/car.png";
+import car from "../../../assets/car.png";
 import {FC} from "react";
 
 export interface ISection {

@@ -6,9 +6,9 @@ import Table from "../../components/table/Table";
 import {observer} from "mobx-react-lite";
 import {IRenterResponse} from "../../types/types";
 import ClientEditModal from "./ClientEditModal";
-import {Tooltip} from "../../components/Tooltip";
+import {Tooltip} from "../../components/toolbar/Tooltip";
 import {useStores} from "../../store/RootStore";
-import {FileMenuItem} from "../../components/FileMenuItem";
+import {FileMenuItem} from "../../components/toolbar/FileMenuItem";
 import {SelectModelModal} from "./SelectModelModal";
 
 const Clients = () => {

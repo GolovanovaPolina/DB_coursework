@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import {memo} from 'react';
-import {Tooltip} from "../Tooltip";
+import {Tooltip} from "./Tooltip";
 import {Button, ButtonToolbar, Dropdown} from "react-bootstrap";
-import {FileMenuItem, FileMenuItemProps} from "../FileMenuItem";
+import {FileMenuItem, FileMenuItemProps} from "./FileMenuItem";
 
 export interface ButtonData {
     name: string,

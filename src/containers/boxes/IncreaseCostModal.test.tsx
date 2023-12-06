@@ -3,7 +3,7 @@ import {act} from "@testing-library/react";
 
 import {IncreaseCostModal} from "./IncreaseCostModal";
 
-describe('IncreaseCostModal (module tests)', async () => {
+describe('IncreaseCostModal ', async () => {
 
     it('Открылось окно изменения стоимости', async () => {
 

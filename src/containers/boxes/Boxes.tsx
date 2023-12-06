@@ -10,7 +10,7 @@ import ErrorModal from "../../components/modals/ErrorModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import {IncreaseCostModal} from "./IncreaseCostModal";
 import {useStores} from "../../store/RootStore";
-import {FileMenuItemProps} from "../../components/FileMenuItem";
+import {FileMenuItemProps} from "../../components/toolbar/FileMenuItem";
 import Toolbar, {ButtonData} from "../../components/toolbar/Toolbar";
 
 const Boxes = () => {

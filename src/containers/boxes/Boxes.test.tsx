@@ -55,7 +55,7 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
-describe('Boxes (module tests)', async () => {
+describe('Boxes ', async () => {
     it('Кнопка удаления активируется при выборе строки', async () => {
         await act(async () => render(
             <Boxes/>

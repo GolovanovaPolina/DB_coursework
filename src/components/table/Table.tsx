@@ -11,6 +11,8 @@ export interface ITable<T> {
 }
 
 function Table<T extends Object>({ columns, data, selectRowCallback }: ITable<T>) {
+    console.log(columns, data, selectRowCallback);
+
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleRowSelected } = useTable(
         {
             columns,
