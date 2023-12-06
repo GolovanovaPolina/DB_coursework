@@ -1,5 +1,5 @@
 import {render, screen} from '../../utils/utils'
-import {act} from "@testing-library/react";
+import {act, fireEvent} from "@testing-library/react";
 import {BrowserRouter} from "react-router-dom";
 import Toolbar, {ButtonData} from "./Toolbar";
 import {FileMenuItemProps} from "../FileMenuItem";
@@ -34,7 +34,7 @@ const fileButtons: FileMenuItemProps[] = [
     },
 ];
 
-describe('Toolbar (module tests)', async () => {
+describe('Toolbar', async () => {
     it('Отобразилась панель управления', async () => {
 
         await act(async () => render(
@@ -43,9 +43,18 @@ describe('Toolbar (module tests)', async () => {
             )
         )
 
-        for (let button of buttons) {
-            expect(screen.getByRole('button', {name: button.name})).toBeInTheDocument()
+        for (let b of buttons) {
+            // кнопка есть.
+            const btn =  screen.getByRole('button', {name: b.name});
+            expect(btn).toBeInTheDocument()
+            // активность.
+            b.disabled ? expect(btn).toBeDisabled() : expect(btn).not.toBeDisabled();
+            fireEvent.mouseEnter(btn);
+            // всплывающая подсказка.
+            expect(await screen.findByText(b.tooltip)).toBeInTheDocument();
         }
+
+
     })
 
     it('Открывается выпадающий список справок', async () => {
