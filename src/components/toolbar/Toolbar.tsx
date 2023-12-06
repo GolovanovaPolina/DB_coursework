@@ -14,12 +14,10 @@ export interface ButtonData {
     icon: string
 }
 
-
 type ToolbarData = {
     buttons: ButtonData[];
     fileButtons: FileMenuItemProps[];
 };
-
 
 function Toolbar({buttons, fileButtons}: ToolbarData) {
 

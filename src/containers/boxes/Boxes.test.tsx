@@ -1,51 +1,16 @@
-import {render, screen} from '../../utils/utils'
+import {render, screen, userEvent} from '../../utils/utils'
 import Boxes from "./Boxes";
 import {act} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
+import {boxes, models} from "./mock/mock";
 
 const server = setupServer(
     http.get('/data-service/boxes/all', ({request, params, cookies}) => {
-        return HttpResponse.json([{
-            "box_number": 102,
-            "id_model": 78019625,
-            "daily_cost": 660,
-            "model_name": "Opel"
-        }, {"box_number": 103, "id_model": 78019625, "daily_cost": 826, "model_name": "Opel"}, {
-            "box_number": 105,
-            "id_model": 36074306,
-            "daily_cost": 936,
-            "model_name": "Ford"
-        }, {"box_number": 106, "id_model": 911776857, "daily_cost": 660, "model_name": "Kia"}, {
-            "box_number": 110,
-            "id_model": 765420496,
-            "daily_cost": 1100,
-            "model_name": "Volvo"
-        }, {
-            "box_number": 115,
-            "id_model": 623580884,
-            "daily_cost": 1320,
-            "model_name": "Lamborghini"
-        }, {"box_number": 120, "id_model": 78019625, "daily_cost": 935, "model_name": "Opel"}, {
-            "box_number": 125,
-            "id_model": 36074306,
-            "daily_cost": 990,
-            "model_name": "Ford"
-        }, {"box_number": 130, "id_model": 540846179, "daily_cost": 1265, "model_name": "Haval"}, {
-            "box_number": 135,
-            "id_model": 1477140551,
-            "daily_cost": 440,
-            "model_name": "Lada"
-        }])
+        return HttpResponse.json(boxes)
     }),
     http.get("/data-service/models/all", ({request, params, cookies}) => {
-        return HttpResponse.json([{"id_model": 78019625, "name": "Opel"}, {
-            "id_model": 36074306,
-            "name": "Ford"
-        }, {"id_model": 911776857, "name": "Kia"}, {"id_model": 765420496, "name": "Volvo"}, {
-            "id_model": 623580884,
-            "name": "Lamborghini"
-        }, {"id_model": 1477140551, "name": "Lada"}, {"id_model": 540846179, "name": "Haval"}])
+        return HttpResponse.json(models)
     })
 )
 
@@ -56,25 +21,27 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('Boxes ', async () => {
-    it('Кнопка удаления активируется при выборе строки', async () => {
+    it('Кнопка удаления должна быть активна только при наличии выбранной строки', async () => {
         await act(async () => render(
             <Boxes/>
         ))
 
         const btn = screen.getByRole('button', {name: /удалить/i});
-        expect(btn).toBeDisabled();
+        expect(btn.getAttribute('disabled')).not.toBe(undefined);
 
         setTimeout(async () => {
-            const row = await screen.findByRole("cell");
-            await row.click();
+            const cells = await screen.findAllByRole("cell");
+            expect(cells.length).toBeGreaterThan(0);
 
-            btn.click();
-            expect(await screen.findByRole("dialog")).toBeInTheDocument();
+            await cells[0].click();
+            expect(btn.getAttribute('disabled')).toBe(undefined);
+            await cells[0].click();
+            expect(btn.getAttribute('disabled')).not.toBe(undefined);
         }, 1000)
 
     })
 
-    it('Открылось модальное окно добавления бокса', async () => {
+    it('Модальное окно добавления должно открываться по клику на кнопку добавления', async () => {
         await act(async () => render(
             <Boxes/>
         ))
@@ -83,9 +50,13 @@ describe('Boxes ', async () => {
         await act(async () => btn.click());
 
         expect(await screen.findByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByText(/добавить бокс/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/номер бокса/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/модель/i)).toBeInTheDocument();
+
     })
 
-    it('Открылось модальное окно изменения стоимости', async () => {
+    it('Модальное окно изменения стоимости должно открываться по клику на кнопку изменения', async () => {
         await act(async () => render(
             <Boxes/>
         ))
@@ -94,6 +65,51 @@ describe('Boxes ', async () => {
         await act(async () => btn.click());
 
         expect(await screen.findByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByText(/изменить/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/коэффициент/i)).toBeInTheDocument();
     })
 
+    it('Данные в таблице о стоимости аренды должны быть обновлены после отправки формы изменения стоимости', async () => {
+        await act(async () => render(
+            <Boxes/>
+        ))
+
+        const k = 1.5;
+
+        const values: number[] = [];
+        const headers = screen.getAllByRole("columnheader");
+        let index = -1;
+        for (let i = 0; i < headers.length; i++) {
+            if (headers[i].title.toLowerCase().includes("cтоимость")) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) return;
+
+        const cells = await screen.findAllByRole("cell");
+        for (let i = 0; i < cells.length; i++) {
+            if (i+1 % index == 0) {
+                values.push(Number(cells[i].textContent));
+            }
+        }
+
+        await act(async () => screen.getByRole('button', {name: /изменить/i}).click());
+
+        await screen.findByRole("dialog");
+        const counter = screen.getByLabelText(/коэффициент/i);
+        await userEvent.click(counter);
+        await userEvent.keyboard(k.toString());
+
+        await userEvent.click(screen.getByText("Отправить"));
+
+
+        const _cells = await screen.findAllByRole("cell");
+        for (let i = 0; i < _cells.length; i++) {
+            if (i+1 % index == 0) {
+                expect(Number(_cells[i].textContent)).toBe(values[i] * k);
+            }
+        }
+
+    })
 })

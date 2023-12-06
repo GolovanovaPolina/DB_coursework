@@ -56,7 +56,7 @@ function Table<T extends Object>({ columns, data, selectRowCallback }: ITable<T>
                             onClick={(e) => selectRowHandler(e, row)}
                             {...row.getRowProps()}
                         >
-                            {row.cells.map((cell) => {
+                            {row.cells.map((cell, index) => {
                                 return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                             })}
                         </tr>

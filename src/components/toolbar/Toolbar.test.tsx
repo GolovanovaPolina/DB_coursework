@@ -35,7 +35,7 @@ const fileButtons: FileMenuItemProps[] = [
 ];
 
 describe('Toolbar', async () => {
-    it('Отобразилась панель управления', async () => {
+    it('Все компоненты панели должны отображаться корректно', async () => {
 
         await act(async () => render(
                 <Toolbar fileButtons={fileButtons} buttons={buttons}/>,
@@ -57,7 +57,7 @@ describe('Toolbar', async () => {
 
     })
 
-    it('Открывается выпадающий список справок', async () => {
+    it('Выпадающий список справок должен открываться по клику на кнопку получения справок', async () => {
 
         await act(async () => render(
                 <Toolbar fileButtons={fileButtons} buttons={buttons}/>,

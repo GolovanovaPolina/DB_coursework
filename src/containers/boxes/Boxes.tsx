@@ -58,7 +58,7 @@ const Boxes = () => {
             name: "Удалить бокс",
             tooltip: "Удалить выбранный бокс",
             disabled: boxesStore.selectedBoxId === null,
-            onClick: createBoxClickHandler,
+            onClick: removeBoxClickHandler,
             icon: "bi-trash",
             variant: "danger"
         },
