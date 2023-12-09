@@ -1,0 +1,1 @@
+export const renters = [{"id_renter":1,"full_name":"Смирнов И.И.","phone":"+79019902030","address":"ул. Крестовая, д. 176, кв. 10"}]
