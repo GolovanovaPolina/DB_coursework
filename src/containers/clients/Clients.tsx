@@ -1,15 +1,17 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {clientsTableColumns} from "../../data/data";
 import Table from "../../components/table/Table";
 import {observer} from "mobx-react-lite";
 import {IRenterResponse} from "../../types/types";
 import ClientEditModal from "./ClientEditModal";
-import {Tooltip} from "../../components/toolbar/Tooltip";
 import {useStores} from "../../store/RootStore";
-import {FileMenuItem} from "../../components/toolbar/FileMenuItem";
+import {FileMenuItemProps} from "../../components/toolbar/FileMenuItem";
 import {SelectModelModal} from "./SelectModelModal";
+import Toolbar, {ButtonData} from "../../components/toolbar/Toolbar";
+import SuccessModal from "../../components/modals/SuccessModal";
+import ErrorModal from "../../components/modals/ErrorModal";
 
 const Clients = () => {
     const { clientsStore, filesStore } = useStores();
@@ -32,53 +34,43 @@ const Clients = () => {
         clientsStore.setSelectedClient(index);
     };
 
-    function showModelsModal() {
-        setShowSelectModelModal(true);
-    }
-
     function closeModelsModal() {
         setShowSelectModelModal(false);
     }
 
+    const buttons: ButtonData[] = [
+        {
+            name: "Редактировать данные выбранного клиента",
+            tooltip: "Редактировать данные выбранного клиента",
+            disabled: clientsStore.selectedClient === null,
+            onClick: openEditModal,
+            icon: "bi-pen",
+            variant: "outline-dark"
+        },
+    ];
+
+    const fileButtons: FileMenuItemProps[] = [
+        {
+            title: "О всех клиентах",
+            onClick: () => filesStore.loadXml("all_clients", null),
+        },
+        {
+            title: "О клиентах по модели автомобиля",
+            onClick: () => setShowSelectModelModal(true),
+        },
+        {
+
+            title: "О выбранном клиенте",
+            onClick: () => filesStore.loadXml(`client_in_box`, { box_number: clientsStore.selectedClient }),
+            isDisabled: !clientsStore.selectedClient
+        },
+    ];
+
+
     return (
         <>
             <Container>
-                <ButtonToolbar className="my-4">
-                    <Tooltip text="Редактировать данные выбранного клиента">
-                        <Button
-                            variant="outline-dark"
-                            className="me-2"
-                            disabled={!clientsStore.selectedClient}
-                            onClick={openEditModal}
-                        >
-                            <i className="bi-pen"></i>
-                        </Button>
-                    </Tooltip>
-
-                    <Dropdown>
-                        <Tooltip text="Получить справку">
-                            <Dropdown.Toggle variant="outline-dark" className="me-2">
-                                <i className="bi bi-filetype-xls"></i>
-                            </Dropdown.Toggle>
-                        </Tooltip>
-
-                        <Dropdown.Menu>
-                            <FileMenuItem
-                                title={"О всех клиентах"}
-                                onClick={() => filesStore.loadXml("all_clients", null)}
-                            />
-
-                            <FileMenuItem title={"О клиентах по модели автомобиля"} onClick={showModelsModal} />
-                            <FileMenuItem
-                                title={"О выбранном клиенте"}
-                                isDisabled={!clientsStore.selectedClient}
-                                onClick={() =>
-                                    filesStore.loadXml(`client_in_box`, { box_number: clientsStore.selectedClient })
-                                }
-                            />
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </ButtonToolbar>
+                <Toolbar buttons={buttons} fileButtons={fileButtons}/>
 
                 <Row>
                     <Col>
@@ -101,7 +93,7 @@ const Clients = () => {
             )}
             {showSelectModelModal && <SelectModelModal isShow={showSelectModelModal} onClose={closeModelsModal} />}
 
-            {/*<SuccessModal
+            <SuccessModal
                 show={!!clientsStore.successMessage}
                 closeCallback={() => clientsStore.clearSuccessMessage()}
                 message={clientsStore.successMessage}
@@ -110,7 +102,7 @@ const Clients = () => {
                 show={!!clientsStore.errorMessage}
                 closeCallback={() => clientsStore.clearErrorMessage()}
                 message={clientsStore.errorMessage}
-            />*/}
+            />
         </>
     );
 };

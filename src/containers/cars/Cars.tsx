@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
-import {Button, ButtonToolbar, Col, Container, Dropdown, Row} from "react-bootstrap";
-import {Tooltip} from "../../components/toolbar/Tooltip";
+import {Col, Container, Row} from "react-bootstrap";
 import Table from "../../components/table/Table";
 import {ICarResponse} from "../../types/types";
 import {carsTableColumns} from "../../data/data";
@@ -8,71 +7,65 @@ import SuccessModal from "../../components/modals/SuccessModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import {useStores} from "../../store/RootStore";
 import {observer} from "mobx-react-lite";
-import {Link} from "react-router-dom";
-import {FileMenuItem} from "../../components/toolbar/FileMenuItem";
+import {useNavigate} from "react-router-dom";
+import {FileMenuItemProps} from "../../components/toolbar/FileMenuItem";
+import Toolbar, {ButtonData} from "../../components/toolbar/Toolbar";
+
 
 export type CarsProps = {};
 const Cars: React.FC<CarsProps> = ({}) => {
     const { carsStore, filesStore } = useStores();
+    const navigate = useNavigate();
 
     useEffect(() => {
         carsStore.loadAll();
     }, []);
 
-    function removeBoxClickHandler() {
-        carsStore.deleteSelectedCar();
-    }
 
     function selectRowHandler(index: number) {
         carsStore.setSelectedCar(index);
     }
 
+    function createCarHandler() {
+        navigate("/new-rent");
+    }
+
+    const buttons: ButtonData[] = [
+        {
+            name: "Новый автомобиль",
+            tooltip: "Новый автомобиль",
+            onClick: createCarHandler,
+            icon: "bi-plus-lg",
+            variant: "success"
+        },
+        {
+            name: "Удалить автомобиль из бокса",
+            tooltip: "Удалить выбранный автомобиль из бокса",
+            disabled: carsStore.selectedCarId === null,
+            onClick: carsStore.deleteSelectedCar,
+            icon: "bi-trash",
+            variant: "danger"
+        },
+
+    ];
+
+    const fileButtons: FileMenuItemProps[] = [
+        {
+            onClick: () => filesStore.loadXml(`amount`, {
+                car_number: carsStore.selectedCarId,
+            }),
+            isDisabled: carsStore.selectedCarId === null,
+            title: "Квитанция на оплату аренды выбранной машины",
+        },
+    ];
+
+
+
     return (
         <>
             <Container>
                 <Row className="my-4">
-                    <ButtonToolbar>
-                        <Tooltip text="Новый автомобиль">
-                            <Button variant="success" className="me-2">
-                                <Link to="/new-rent">
-                                    <i className="bi-plus-lg text-white"></i>
-                                </Link>
-                            </Button>
-                        </Tooltip>
-                        <Tooltip text="Удалить автомобиль из бокса">
-                            <Button
-                                variant="danger"
-                                disabled={carsStore.selectedCarId === null}
-                                data-bs-toggle="tooltip"
-                                data-bs-html="true"
-                                title="<em>Подсказка</em>"
-                                className="me-2"
-                                onClick={removeBoxClickHandler}
-                            >
-                                <i className="bi-trash" />
-                            </Button>
-                        </Tooltip>
-
-                        <Dropdown>
-                            <Tooltip text="Получить справку">
-                                <Dropdown.Toggle variant="outline-dark" className="me-2">
-                                    <i className="bi bi-filetype-xls"></i>
-                                </Dropdown.Toggle>
-                            </Tooltip>
-
-                            <Dropdown.Menu>
-                                <FileMenuItem
-                                    title={"Квитанция на оплату аренды выбранной машины"}
-                                    isDisabled={!carsStore.selectedCarId}
-                                    onClick={() =>
-                                        filesStore.loadXml(`amount`, {
-                                            car_number: carsStore.selectedCarId,
-                                        })
-                                    }
-                                />
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </ButtonToolbar>
+                    <Toolbar buttons={buttons} fileButtons={fileButtons}/>
                 </Row>
                 <Row>
                     <Col>

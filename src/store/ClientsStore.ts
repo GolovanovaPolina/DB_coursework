@@ -59,5 +59,13 @@ export class ClientsStore implements IClientsStore {
             this.errorMessage = "Ошибка обновления данных о пользователе.";
         }
     }
+
+    clearSuccessMessage() {
+        this.successMessage = "";
+    }
+
+    clearErrorMessage() {
+        this.errorMessage = "";
+    }
 }
 
