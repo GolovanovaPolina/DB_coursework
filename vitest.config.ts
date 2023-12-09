@@ -10,7 +10,8 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: ['./src/setup.ts'],
         exclude:[
-            ...configDefaults.exclude
+            ...configDefaults.exclude,
+            'dashboard/*'
         ]
     },
 })

@@ -29,9 +29,6 @@ vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 describe('NewBoxModal ', async () => {
 
     it('Корректно отображаются все элементы окна статистики', async () => {
-
-
-
         await act(async () => render(
             <Dashboard />
         ))
