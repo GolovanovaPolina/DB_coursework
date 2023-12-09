@@ -4,31 +4,11 @@ import {setupServer} from "msw/node";
 import {http, HttpResponse} from "msw";
 import Dashboard from "./Dashboard";
 import {vi} from "vitest";
+import {modelsReport} from "./mock/mock";
 
 const server = setupServer(
     http.get("/data-service/models/report", ({request, params, cookies}) => {
-        return HttpResponse.json([
-            {
-                "model_name": "Opel",
-                "count_box": 1,
-                "count_car": 0
-            },
-            {
-                "model_name": "Ford",
-                "count_box": 1,
-                "count_car": 0
-            },
-            {
-                "model_name": "Tesla",
-                "count_box": 1,
-                "count_car": 0
-            },
-            {
-                "model_name": "Lada",
-                "count_box": 2,
-                "count_car": 0
-            }
-        ])
+        return HttpResponse.json(modelsReport);
     })
 )
 
@@ -41,7 +21,7 @@ afterAll(() => server.close())
 
 describe('NewBoxModal ', async () => {
 
-    it('Открылось окно статистики', async () => {
+    it('Корректно отображаются все элементы окна статистики', async () => {
 
         const ResizeObserverMock = vi.fn(() => ({
             observe: vi.fn(),
@@ -57,8 +37,9 @@ describe('NewBoxModal ', async () => {
         expect(screen.getByText(/Всего боксов/)).toBeInTheDocument();
         expect(screen.getByText(/Свободно/)).toBeInTheDocument();
         expect(screen.getByText(/Всего автомобилей/)).toBeInTheDocument();
-
-        // ещё проверить диаграмму.
+        setTimeout(() => {
+            expect(screen.findByRole("img")).toBeInTheDocument();
+        }, 1000);
     })
 
 })
