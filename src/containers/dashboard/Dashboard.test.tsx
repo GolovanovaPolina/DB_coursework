@@ -18,26 +18,29 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
+const ResizeObserverMock = vi.fn(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+}));
+
+vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
 describe('NewBoxModal ', async () => {
 
     it('Корректно отображаются все элементы окна статистики', async () => {
 
-        const ResizeObserverMock = vi.fn(() => ({
-            observe: vi.fn(),
-            unobserve: vi.fn(),
-            disconnect: vi.fn(),
-        }));
 
-        vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+
         await act(async () => render(
             <Dashboard />
         ))
 
+
         expect(screen.getByText(/Всего боксов/)).toBeInTheDocument();
         expect(screen.getByText(/Свободно/)).toBeInTheDocument();
         expect(screen.getByText(/Всего автомобилей/)).toBeInTheDocument();
-        setTimeout(() => {
+        setTimeout(async () => {
             expect(screen.findByRole("img")).toBeInTheDocument();
         }, 1000);
     })
