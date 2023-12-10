@@ -31,9 +31,13 @@ describe('Boxes ', async () => {
         await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
         const cells = await screen.findAllByRole("cell");
 
-        await cells[0].click();
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
         expect(screen.getByRole('button', {name: /удалить/i})).not.toBeDisabled();
-        await cells[0].click();
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
         expect(screen.getByRole('button', {name: /удалить/i})).toBeDisabled();
 
     })
