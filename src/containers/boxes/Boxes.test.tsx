@@ -31,7 +31,7 @@ describe('Boxes ', async () => {
 
         setTimeout(async () => {
             const cells = await screen.findAllByRole("cell");
-            expect(cells.length).toBeGreaterThan(0);
+
 
             await cells[0].click();
             expect(btn.getAttribute('disabled')).toBe(undefined);

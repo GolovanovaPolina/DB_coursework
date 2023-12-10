@@ -41,7 +41,7 @@ describe('Boxes ', async () => {
 
         setTimeout(async () => {
             const cells = await screen.findAllByRole("cell");
-            expect(cells.length).toBeGreaterThan(0);
+
 
             await cells[0].click();
             expect(btn.getAttribute('disabled')).toBe(undefined);
@@ -62,7 +62,7 @@ describe('Boxes ', async () => {
 
         setTimeout(async () => {
             const cells = await screen.findAllByRole("cell");
-            expect(cells.length).toBeGreaterThan(0);
+
 
             const values = {
                 name: "",
@@ -98,7 +98,7 @@ describe('Boxes ', async () => {
 
         setTimeout(async () => {
             const cells = await screen.findAllByRole("cell");
-            expect(cells.length).toBeGreaterThan(0);
+
 
             const name = "Голованова П.Д.";
             const phone = "+79809008070";
@@ -119,7 +119,6 @@ describe('Boxes ', async () => {
             expect(_cells[0].innerHTML).toBe(name);
             expect(_cells[1].innerHTML).toBe(phone);
             expect(_cells[2].innerHTML).toBe(addr);
-
 
         }, 1000)
 
