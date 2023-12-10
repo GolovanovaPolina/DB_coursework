@@ -1,5 +1,5 @@
 import {render, screen} from '../../utils/utils'
-import {act} from "@testing-library/react";
+import {act, waitFor} from "@testing-library/react";
 import {setupServer} from "msw/node";
 import {http, HttpResponse} from "msw";
 import Dashboard from "./Dashboard";
@@ -37,9 +37,7 @@ describe('NewBoxModal ', async () => {
         expect(screen.getByText(/Всего боксов/)).toBeInTheDocument();
         expect(screen.getByText(/Свободно/)).toBeInTheDocument();
         expect(screen.getByText(/Всего автомобилей/)).toBeInTheDocument();
-        setTimeout(async () => {
-            expect(screen.findByRole("img")).toBeInTheDocument();
-        }, 1000);
+        await waitFor(() => screen.getByRole("img"), {timeout: 2000});
     })
 
 })

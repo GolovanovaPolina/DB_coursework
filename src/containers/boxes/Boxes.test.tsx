@@ -1,6 +1,6 @@
 import {render, screen, userEvent} from '../../utils/utils'
 import Boxes from "./Boxes";
-import {act} from "@testing-library/react";
+import {act, waitFor} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
 import {boxes, models} from "./mock/mock";
@@ -26,18 +26,15 @@ describe('Boxes ', async () => {
             <Boxes/>
         ))
 
-        const btn = screen.getByRole('button', {name: /удалить/i});
-        expect(btn.getAttribute('disabled')).not.toBe(undefined);
+        expect(screen.getByRole('button', {name: /удалить/i})).toBeDisabled();
 
-        setTimeout(async () => {
-            const cells = await screen.findAllByRole("cell");
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
+        const cells = await screen.findAllByRole("cell");
 
-
-            await cells[0].click();
-            expect(btn.getAttribute('disabled')).toBe(undefined);
-            await cells[0].click();
-            expect(btn.getAttribute('disabled')).not.toBe(undefined);
-        }, 1000)
+        await cells[0].click();
+        expect(screen.getByRole('button', {name: /удалить/i})).not.toBeDisabled();
+        await cells[0].click();
+        expect(screen.getByRole('button', {name: /удалить/i})).toBeDisabled();
 
     })
 
@@ -103,6 +100,7 @@ describe('Boxes ', async () => {
 
         await userEvent.click(screen.getByText("Отправить"));
 
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
 
         const _cells = await screen.findAllByRole("cell");
         for (let i = 0; i < _cells.length; i++) {
