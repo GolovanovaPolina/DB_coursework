@@ -48,7 +48,7 @@ export class ClientsStore implements IClientsStore {
 
     async updateSelectedClient(data: IRenterResponse) {
         try {
-            await axios.post("/data-service/renters/add", data);
+            await axios.post("/data-service/renters/update", data);
 
             await this.loadAll();
             runInAction(() => {
