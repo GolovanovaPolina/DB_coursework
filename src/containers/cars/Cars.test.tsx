@@ -18,7 +18,7 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
-describe('Boxes ', async () => {
+describe('Cars ', async () => {
     it('Все компоненты модуля должны присутствовать на странице', async () => {
         await act(async () => render(
             <Cars/>,
@@ -58,7 +58,8 @@ describe('Boxes ', async () => {
         expect(menuItem.closest("a")?.className).toContain("disabled");
 
         await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
-        await userEvent.click(screen.getAllByRole('cell')[0]);
+        await act(async () => await userEvent.click(screen.getAllByRole('cell')[0]));
+
         await userEvent.click(screen.getByRole('button', {name: /получить/i}));
         const _menuItem = await screen.findByText('Квитанция на оплату аренды выбранной машины');
         expect(_menuItem.closest("a")?.className).not.toContain("disabled");

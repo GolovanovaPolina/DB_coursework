@@ -1,8 +1,9 @@
 import {BrowserRouter} from "react-router-dom";
 import {act} from "@testing-library/react";
-import {render, screen} from "../../utils/utils"
-import {WelcomePage} from "../../containers/welcome/WelcomePage";
-import {ISection} from "./Navigation";
+import {render, screen} from "../utils/utils"
+import {WelcomePage} from "../containers/welcome/WelcomePage";
+import {ISection} from "../components/navigation/Navigation";
+import Boxes from "../containers/boxes/Boxes";
 
 export const menu: ISection[] = [
     {
@@ -27,11 +28,27 @@ export const menu: ISection[] = [
     },
 ]
 
-describe('Navigation (integration test)', async () => {
+describe('Navigation', async () => {
     it('Перейти на страницу с главной страницы', async () => {
 
         await act(async () => render(
             <WelcomePage/>,
+            {wrapper: BrowserRouter}
+        ));
+
+
+        for (let section of menu) {
+            const el = screen.getByText(section.text);
+            await act(() => el.click());
+
+            expect(location.pathname.includes(section.url));
+        }
+    })
+
+    it('Перейти на страницу из верхнего меню', async () => {
+
+        await act(async () => render(
+            <Boxes/>,
             {wrapper: BrowserRouter}
         ));
 

@@ -17,7 +17,7 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
-describe('Boxes ', async () => {
+describe('Clients ', async () => {
     it('Все компоненты модуля должны присутствовать на странице', async () => {
         await act(async () => render(
             <Clients/>

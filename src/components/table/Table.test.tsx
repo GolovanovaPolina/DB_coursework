@@ -29,7 +29,7 @@ const data: TestData[] = [
     }
 ]
 
-describe('Boxes ', async () => {
+describe('Table ', async () => {
     it('Строка должна выделяться по клику', async () => {
         let active = false;
 

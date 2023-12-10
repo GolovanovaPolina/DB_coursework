@@ -26,7 +26,7 @@ const ResizeObserverMock = vi.fn(() => ({
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
-describe('NewBoxModal ', async () => {
+describe('Dashboard ', async () => {
 
     it('Корректно отображаются все элементы окна статистики', async () => {
         await act(async () => render(

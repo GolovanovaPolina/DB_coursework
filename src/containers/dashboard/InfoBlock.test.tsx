@@ -2,9 +2,9 @@ import {render, screen} from '../../utils/utils'
 import {act} from "@testing-library/react";
 import {InfoBlock} from "./InfoBlock";
 
-describe('NewBoxModal ', async () => {
+describe('InfoBlock ', async () => {
 
-    it('Открылось окно статистики', async () => {
+    it('Все поля блока информации должны отображаться корректно', async () => {
 
         const count = 10;
         const text = "описание";

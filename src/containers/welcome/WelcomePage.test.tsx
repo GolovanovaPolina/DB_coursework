@@ -27,7 +27,7 @@ export const menu: ISection[] = [
     },
 ]
 
-describe('WelcomePage (module test)', async () => {
+describe('WelcomePage', async () => {
     it('Отобразить страницу приветствия', async () => {
 
         const text = "Добро пожаловать!";
