@@ -43,7 +43,10 @@ export class ClientsStore implements IClientsStore {
     }
 
     setSelectedClient(index: number) {
-        this.selectedClient = index < 0 ? null : this.clientsList[index];
+        runInAction(() => {
+            this.selectedClient = index < 0 ? null : this.clientsList[index];
+        })
+
     }
 
     async updateSelectedClient(data: IRenterResponse) {
@@ -56,7 +59,9 @@ export class ClientsStore implements IClientsStore {
             })
 
         } catch (error) {
-            this.errorMessage = "Ошибка обновления данных о пользователе.";
+            runInAction(() => {
+                this.errorMessage = "Ошибка обновления данных о пользователе.";
+            })
         }
     }
 

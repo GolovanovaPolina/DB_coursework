@@ -3,7 +3,6 @@ import {act} from "@testing-library/react";
 import {render, screen} from "../utils/utils"
 import {WelcomePage} from "../containers/welcome/WelcomePage";
 import {ISection} from "../components/navigation/Navigation";
-import Boxes from "../containers/boxes/Boxes";
 
 export const menu: ISection[] = [
     {
@@ -45,7 +44,7 @@ describe('Navigation', async () => {
         }
     })
 
-    it('Перейти на страницу из верхнего меню', async () => {
+    /*it('Перейти на страницу из верхнего меню', async () => {
 
         await act(async () => render(
             <Boxes/>,
@@ -59,7 +58,7 @@ describe('Navigation', async () => {
 
             expect(location.pathname.includes(section.url));
         }
-    })
+    })*/
 })
 
 

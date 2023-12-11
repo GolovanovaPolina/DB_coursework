@@ -13,7 +13,7 @@ export default ({ mode }) => {
                     rewrite: (path) => path.replace(/^\/data-service/, ''),
                 },
             },
-            host: "0.0.0.0",
+            // host: "0.0.0.0",
         },
     });
 };

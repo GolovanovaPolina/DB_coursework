@@ -54,6 +54,7 @@ describe('Boxes ', async () => {
         expect(screen.getByText(/добавить бокс/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/номер бокса/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/модель/i)).toBeInTheDocument();
+        expect(screen.getByText(/стоимость/i)).toBeInTheDocument();
 
     })
 

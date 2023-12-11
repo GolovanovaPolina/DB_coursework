@@ -84,40 +84,46 @@ const ClientEditModal: FC<IEditModal<IRenterResponse>> = ({closeCallback, show, 
             <Modal.Body>
                 <Form onSubmit={onSubmit}>
                     <Form.Group className="mb-3">
-                        <Form.Label className="required">ФИО</Form.Label>
-                        <Form.Control
-                            name="fullName"
-                            onChange={(e) => onChange(e.target.name, e.target.value)}
-                            value={data.full_name}
-                            type="text"
-                            autoComplete={"off"}
-                        />
+                        <Form.Label className = "w-100">ФИО
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <Form.Control
+                                name="fullName"
+                                onChange={(e) => onChange(e.target.name, e.target.value)}
+                                value={data.full_name}
+                                type="text"
+                                autoComplete={"off"}
+                            />
+                        </Form.Label>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label className="required" >Телефон</Form.Label>
-                        <InputMask className={phoneClassName}
-                                   mask="+9(999) 999-9999"
-                                   name={"phone"}
-                                   value={data.phone}
-                                   onChange={(e) => onChange(e.target.name, e.target.value)}
-                                   onBlur={(e) => onBlurMaskedInput(e.target.name, e.target.value)}
-                                   onFocus={(e) => onFocusMaskedInput(e.target.name, e.target.value)}
-                                   required
-                        />
+                        <Form.Label className = "w-100">
+                            Телефон
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <InputMask className={phoneClassName}
+                                       mask="+9(999) 999-9999"
+                                       name={"phone"}
+                                       value={data.phone}
+                                       onChange={(e) => onChange(e.target.name, e.target.value)}
+                                       onBlur={(e) => onBlurMaskedInput(e.target.name, e.target.value)}
+                                       onFocus={(e) => onFocusMaskedInput(e.target.name, e.target.value)}
+                                       required
+                            />
+                            </Form.Label>
+
                         {errors.phone && <div style={{color: "#dc3545", fontSize: ".875em", marginTop: "5px"}}>{errors.phone}</div>}
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Адрес</Form.Label>
-                        <Form.Control
-                            name="address"
-                            onChange={(e) => onChange(e.target.name, e.target.value)}
-                            value={data.address}
-                            type="text"
-                        />
+                        <Form.Label className = "w-100">Адрес
+                            <Form.Control
+                                name="address"
+                                onChange={(e) => onChange(e.target.name, e.target.value)}
+                                value={data.address}
+                                type="text"
+                            />
+                        </Form.Label>
                     </Form.Group>
-
                     <ButtonToolbar>
                         <Button className="me-3" type="submit">Отправить</Button>
                         <Button onClick={onClose} variant="secondary">Отменить</Button>

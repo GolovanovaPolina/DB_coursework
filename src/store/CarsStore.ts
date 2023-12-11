@@ -41,7 +41,6 @@ export class CarsStore implements ICarsStore {
 
     async deleteSelectedCar() {
         try {
-            console.log("Удаляем машину №", this.selectedCarId);
             await axios.delete(`/data-service/cars/delete/${this.selectedCarId}`);
 
             // ИЛИ delete this.boxesList[+this.selectedBoxesIdx];

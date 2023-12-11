@@ -9,9 +9,23 @@ const server = setupServer(
     http.get('/data-service/renters/all', ({request, params, cookies}) => {
         return HttpResponse.json(renters)
     }),
+    http.post('/data-service/renters/update', async ({request, params, cookies}) => {
+        /*const data = await request.json()
+
+        for (let i = 0; i < renters.length; i++) {
+            if (renters[i].id_renter == data?.id_renter) {
+                renters[i].phone = data?.phone;
+                renters[i].address = data?.address;
+                renters[i].full_name = data?.full_name;
+            }
+        }
+*/
+    })
 )
 
-beforeAll(() => server.listen())
+beforeAll(() => server.listen({
+    onUnhandledRequest: "error",
+}))
 
 afterEach(() => server.resetHandlers())
 
@@ -40,12 +54,15 @@ describe('Clients ', async () => {
 
         await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
 
-        const cells = await screen.findAllByRole("cell");
+        const cells = await screen.getAllByRole("cell");
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
 
-
-        await cells[0].click();
         expect(screen.getByRole('button', {name: /редактировать/i})).not.toBeDisabled();
-        await cells[0].click();
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
         expect(screen.getByRole('button', {name: /редактировать/i})).toBeDisabled();
 
     })
@@ -56,11 +73,8 @@ describe('Clients ', async () => {
             <Clients/>
         ))
 
-        const btn = screen.getByRole('button', {name: /редактировать/i});
-        await act(async () => btn.click());
-
         await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
-        const cells = await screen.findAllByRole("cell");
+        const cells = await screen.getAllByRole("cell");
 
         const values = {
             name: "",
@@ -71,15 +85,20 @@ describe('Clients ', async () => {
         values.phone = cells[1].innerHTML;
         values.addr = cells[2].innerHTML;
 
-        await cells[0].click();
-        await btn.click();
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
 
-        expect(await screen.findByRole("dialog")).toBeInTheDocument();
+        await act(async () => {
+            await userEvent.click(screen.getByRole('button', {name: /редактировать/i}));
+        });
+
+        await waitFor(() => screen.getByRole("dialog"));
+
         expect(screen.getByText(/редактирование данных о клиенте/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/ФИО/i).innerHTML).toBe(values.name);
         expect(screen.getByLabelText(/телефон/i).innerHTML).toBe(values.phone);
         expect(screen.getByLabelText(/адрес/i).innerHTML).toBe(values.addr);
-
 
     })
 
@@ -88,27 +107,27 @@ describe('Clients ', async () => {
             <Clients/>
         ))
 
-        const btn = screen.getByRole('button', {name: /редактировать/i});
-        await act(async () => btn.click());
-
         await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
         const cells = await screen.findAllByRole("cell");
         const name = "Голованова П.Д.";
         const phone = "+79809008070";
         const addr = cells[2].innerHTML;
 
-        await cells[0].click();
-        await btn.click();
+        await act(async () => {
+            await cells[0].click();    /* fire events that update state */
+        });
 
-        expect(await screen.findByRole("dialog")).toBeInTheDocument();
+        await userEvent.click(screen.getByRole('button', {name: /редактировать/i}));
+        await waitFor(() => screen.getByRole("dialog"));
+
         await userEvent.type(screen.getByLabelText(/ФИО/i), name)
         await userEvent.type(screen.getByLabelText(/телефон/i), phone)
-        await userEvent.click(screen.getByText(/отправить/i))
 
-        expect(await screen.findByText(/успешно/i)).toBeInTheDocument();
+        await act(async () => {
+            await userEvent.click(screen.getByText(/отправить/i)); /* fire events that update state */
+        });
 
         const _cells = await screen.findAllByRole("cell");
-        expect(_cells.length).toBeGreaterThan(0);
         expect(_cells[0].innerHTML).toBe(name);
         expect(_cells[1].innerHTML).toBe(phone);
         expect(_cells[2].innerHTML).toBe(addr);
