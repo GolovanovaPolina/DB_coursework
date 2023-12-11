@@ -21,15 +21,14 @@ export class FreeBoxesStore implements IBoxesStore {
         makeAutoObservable(this);
     }
 
-    async loadFreeByModelId(id: string): Promise<void> {
+    async  loadFreeByModelId(id: string): Promise<void> {
         try {
-            /*const response = await axios.get<IBoxResponse[]>(`/data-service/boxes/freeByModel/${id}`);
+            const response = await axios.get<IBoxResponse[]>(`/data-service/boxes/freeWithModel/${id}`);
 
             runInAction(() => {
                 this.freeBoxesList = response.data;
-            })*/
+            })
 
-            const response = await axios.get<IBoxResponse[]>(`/data-service/boxes`);
             const boxesList: IBoxResponse[] = response.data;
 
             runInAction(() => {

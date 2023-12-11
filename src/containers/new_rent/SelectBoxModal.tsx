@@ -57,15 +57,19 @@ const SelectBoxModal: FC<ISelectBoxModal> = ({ id, closeCallback, show, submitCa
                 />
                 <Form>
                     <Form.Group className="mb-3">
-                        <Form.Label className="required-p">Номер квитанции</Form.Label>
-                        <Form.Control
-                            name="receiptNumber"
-                            value={receiptNumber}
-                            type="text"
-                            onChange={(e) => onChange(e.target.name, e.target.value)}
-                            isInvalid={!!error}
-                            autoComplete={"off"}
-                        />
+                        <Form.Label className="w-100">
+                            Номер квитанции
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <Form.Control
+                                name="receiptNumber"
+                                value={receiptNumber}
+                                type="text"
+                                onChange={(e) => onChange(e.target.name, e.target.value)}
+                                isInvalid={!!error}
+                                autoComplete={"off"}
+                            />
+                        </Form.Label>
+
                         <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
                     </Form.Group>
                 </Form>

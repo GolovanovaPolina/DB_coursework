@@ -234,16 +234,20 @@ const NewRent = () => {
             <Container>
                 <Form>
                     <FormGroup className="mb-3">
-                        <FormLabel className="required-p">Клиент</FormLabel>
-                        <CreatableSelect
-                            formatCreateLabel={(inputText) => `Добавить "${inputText}"`}
-                            styles={renterCustomStyles}
-                            isClearable
-                            onChange={(newValue) => onSelectRenter(newValue)}
-                            onCreateOption={(newValue) => onSelectRenter(newValue)}
-                            value={data.renter}
-                            options={renters}
-                        />
+                        <FormLabel className="w-100">
+                            Клиент
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <CreatableSelect
+                                formatCreateLabel={(inputText) => `Добавить "${inputText}"`}
+                                styles={renterCustomStyles}
+                                isClearable
+                                onChange={(newValue) => onSelectRenter(newValue)}
+                                onCreateOption={(newValue) => onSelectRenter(newValue)}
+                                value={data.renter}
+                                options={renters}
+                            />
+                        </FormLabel>
+
                         {errors?.renter && (
                             <div style={{ color: "#dc3545", fontSize: ".875em", marginTop: "5px" }}>
                                 {errors.renter}
@@ -252,18 +256,22 @@ const NewRent = () => {
                     </FormGroup>
 
                     <Form.Group className="mb-3">
-                        <Form.Label className="required-p">Телефон</Form.Label>
-                        <InputMask
-                            className={phoneClassName}
-                            mask="+9(999) 999-9999"
-                            name={"renterPhone"}
-                            value={data.renterPhone}
-                            onChange={(e) => onChange(e.target.name, e.target.value)}
-                            onBlur={(e) => onBlurMaskedInput(e.target.name, e.target.value)}
-                            onFocus={(e) => onFocusMaskedInput(e.target.name, e.target.value)}
-                            required
-                            readOnly={!isClientEditable}
-                        />
+                        <Form.Label className="w-100">
+                            Телефон
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <InputMask
+                                className={phoneClassName}
+                                mask="+9(999) 999-9999"
+                                name={"renterPhone"}
+                                value={data.renterPhone}
+                                onChange={(e) => onChange(e.target.name, e.target.value)}
+                                onBlur={(e) => onBlurMaskedInput(e.target.name, e.target.value)}
+                                onFocus={(e) => onFocusMaskedInput(e.target.name, e.target.value)}
+                                required
+                                readOnly={!isClientEditable}
+                            />
+                        </Form.Label>
+
                         {errors.renterPhone && (
                             <div style={{ color: "#dc3545", fontSize: ".875em", marginTop: "5px" }}>
                                 {errors.renterPhone}
@@ -272,27 +280,33 @@ const NewRent = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Адрес</Form.Label>
-                        <Form.Control
-                            name="renterAddress"
-                            onChange={(e) => onChange(e.target.name, e.target.value)}
-                            value={data.renterAddress}
-                            type="text"
-                            readOnly={!isClientEditable}
-                            autoComplete={"off"}
-                        />
+                        <Form.Label className={"w-100"}>
+                            Адрес
+                            <Form.Control
+                                name="renterAddress"
+                                onChange={(e) => onChange(e.target.name, e.target.value)}
+                                value={data.renterAddress}
+                                type="text"
+                                readOnly={!isClientEditable}
+                                autoComplete={"off"}
+                            />
+                        </Form.Label>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label className="required-p">Модель</Form.Label>
-                        <Select
-                            styles={modelCustomStyles}
-                            name="model"
-                            value={data.model}
-                            placeholder={"Название модели"}
-                            onChange={(newValue) => onChangeSelect("model", newValue)}
-                            options={models}
-                        />
+                        <Form.Label className="w-100">
+                            Модель
+                            <span style={{color:"red", fontWeight: 600}}>*</span>
+                            <Select
+                                styles={modelCustomStyles}
+                                name="model"
+                                value={data.model}
+                                placeholder={"Название модели"}
+                                onChange={(newValue) => onChangeSelect("model", newValue)}
+                                options={models}
+                            />
+                        </Form.Label>
+
                         {errors.model && (
                             <div style={{ color: "#dc3545", fontSize: ".875em", marginTop: "5px" }}>{errors.model}</div>
                         )}
@@ -301,29 +315,34 @@ const NewRent = () => {
                     <Row>
                         <Col>
                             <Form.Group className="mb-3">
-                                <Form.Label className="required-p">Номер машины</Form.Label>
-                                <Form.Control
-                                    name="automobileNumber"
-                                    value={data.automobileNumber}
-                                    type="text"
-                                    onChange={(e) => onChange(e.target.name, e.target.value)}
-                                    isInvalid={!!errors.automobileNumber}
-                                    autoComplete={"off"}
-                                />
+                                <Form.Label className="w-100">
+                                    Номер машины
+                                    <span style={{color:"red", fontWeight: 600}}>*</span>
+                                    <Form.Control
+                                        name="automobileNumber"
+                                        value={data.automobileNumber}
+                                        type="text"
+                                        onChange={(e) => onChange(e.target.name, e.target.value)}
+                                        isInvalid={!!errors.automobileNumber}
+                                        autoComplete={"off"}
+                                    />
+                                </Form.Label>
                                 <Form.Control.Feedback type="invalid">{errors.automobileNumber}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group className="mb-3">
-                                <Form.Label className="required-p">Регион</Form.Label>
-                                <Form.Control
-                                    name="automobileNumberRegion"
-                                    value={data.automobileNumberRegion}
-                                    type="text"
-                                    onChange={(e) => onChange(e.target.name, e.target.value)}
-                                    isInvalid={!!errors.automobileNumberRegion}
-                                    autoComplete={"off"}
-                                />
+                                <Form.Label className="w-100">
+                                    Регион
+                                    <Form.Control
+                                        name="automobileNumberRegion"
+                                        value={data.automobileNumberRegion}
+                                        type="text"
+                                        onChange={(e) => onChange(e.target.name, e.target.value)}
+                                        isInvalid={!!errors.automobileNumberRegion}
+                                        autoComplete={"off"}
+                                    />
+                                </Form.Label>
                                 <Form.Control.Feedback type="invalid">{errors.automobileNumber}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
