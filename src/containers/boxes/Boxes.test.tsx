@@ -21,6 +21,21 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('Boxes ', async () => {
+    it('Все компоненты модуля должны присутствовать на странице', async () => {
+        await act(async () => render(
+            <Boxes/>
+        ))
+
+        expect(screen.getByText(/номер бокса/i)).toBeInTheDocument();
+        expect(screen.getByText(/поддерживаемая марка/i)).toBeInTheDocument();
+        expect(screen.getByText(/стоимость \(руб \/ сутки\)/i)).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /добавить/i})).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /удалить/i})).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /изменить/i})).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: /получить/i})).toBeInTheDocument();
+
+    })
+
     it('Кнопка удаления должна быть активна только при наличии выбранной строки', async () => {
         await act(async () => render(
             <Boxes/>
@@ -54,7 +69,7 @@ describe('Boxes ', async () => {
         expect(screen.getByText(/добавить бокс/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/номер бокса/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/модель/i)).toBeInTheDocument();
-        expect(screen.getByText(/стоимость/i)).toBeInTheDocument();
+        expect(screen.getByText(/стоимость \(руб \/ сутки\)/i)).toBeInTheDocument();
 
     })
 
