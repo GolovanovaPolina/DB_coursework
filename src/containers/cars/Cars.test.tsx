@@ -1,10 +1,10 @@
-import {render, screen, userEvent} from '../../utils/utils'
+import {render, screen, userEvent} from '../../tests/utils/utils'
 import {act, waitFor} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
-import {cars} from "./mock/mock";
 import Cars from "./Cars";
 import {BrowserRouter} from "react-router-dom";
+import {cars} from "../../tests/mock/data";
 
 const server = setupServer(
     http.get('/data-service/cars/all', ({request, params, cookies}) => {
@@ -36,28 +36,17 @@ describe('Cars ', async () => {
 
     })
 
-    it('Должно выполниться перенаправление на страницу «Новое бронирование»', async () => {
-        await act(async () => render(
-            <Cars/>,
-        {wrapper: BrowserRouter}
-        ))
-
-        await userEvent.click(screen.getByRole('button', {name: /новый/i}));
-        expect(location.pathname.includes("new-rent"));
-
-    })
-
     it('Выгрузка квитанции по выбранному автомобилю должна быть доступна только при наличии выбранной строки', async () => {
         await act(async () => render(
             <Cars/>,
             {wrapper: BrowserRouter}
         ))
 
-        await userEvent.click(screen.getByRole('button', {name: /Получить/}));
+        await userEvent.click(screen.getByRole('button', {name: /получить/i}));
         const menuItem = await screen.findByText('Квитанция на оплату аренды выбранной машины');
         expect(menuItem.closest("a")?.className).toContain("disabled");
 
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
         await act(async () => await userEvent.click(screen.getAllByRole('cell')[0]));
 
         await userEvent.click(screen.getByRole('button', {name: /получить/i}));

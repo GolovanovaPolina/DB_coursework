@@ -1,4 +1,4 @@
-import {render, screen} from "../../utils/utils";
+import {render, screen} from "../../tests/utils/utils";
 import {WelcomePage} from "./WelcomePage";
 import {BrowserRouter} from "react-router-dom";
 import {act} from "@testing-library/react";

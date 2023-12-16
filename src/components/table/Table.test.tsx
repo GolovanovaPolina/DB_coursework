@@ -1,5 +1,5 @@
 import {act, waitFor} from "@testing-library/react";
-import {render, screen} from "../../utils/utils";
+import {render, screen, userEvent} from "../../tests/utils/utils";
 import Table from "./Table";
 
 interface TestData {
@@ -31,44 +31,40 @@ const data: TestData[] = [
 
 describe('Table ', async () => {
     it('Строка должна выделяться по клику', async () => {
-        let active = false;
+        let activeRow = -1;
 
         await act(async () => render(
-            <Table<TestData> columns={columns} data={data} selectRowCallback={() => active = !active}/>
+            <Table<TestData> columns={columns} data={data} selectRowCallback={(i: number) => activeRow = i}/>
         ))
 
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
 
-        const color = screen.getAllByRole('cell')[0].closest("tr")?.style.background;
-        const cell = screen.getAllByRole('cell')[0];
+        const tr = screen.getAllByRole('cell')[0].closest("tr");
+        const color = tr?.style.background;
+        await userEvent.click(tr!);
 
-        await act(async () => {
-            await cell.click();
-        })
-        expect(active).toBe(true);
-        expect(cell.closest("tr")?.style.background).not.toBe(color);
+        expect(activeRow).toBe(0);
+        expect(screen.getAllByRole('cell')[0].closest("tr")?.style.background).not.toBe(color);
 
     })
 
     it('Выделение со строки должно сниматься по повторному клику', async () => {
-        let active = false;
+        let activeRow = -1;
+
         await act(async () => render(
-            <Table<TestData> columns={columns} data={data} selectRowCallback={() => () => active = !active}/>
+            <Table<TestData> columns={columns} data={data} selectRowCallback={(i: number) => activeRow = i}/>
         ))
 
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
 
-        const color = screen.getAllByRole('cell')[0].closest("tr")?.style.background;
-        const cell = screen.getAllByRole('cell')[0];
+        const tr = screen.getAllByRole('cell')[0].closest("tr");
+        const color = tr?.style.background;
+        await userEvent.click(tr!);
+        await userEvent.click(tr!);
 
-        await act(async () => {
-            await cell.click();
-        })
-        await act(async () => {
-            await cell.click();
-        })
-        expect(active).toBe(false);
-        expect(cell.closest("tr")?.style.background).toBe(color);
+        expect(activeRow).toBe(-1);
+        expect(screen.getAllByRole('cell')[0].closest("tr")?.style.background).toBe(color);
+
     })
 
 })

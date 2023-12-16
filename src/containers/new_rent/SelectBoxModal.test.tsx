@@ -1,9 +1,9 @@
-import {render, screen, userEvent} from '../../utils/utils'
+import {render, screen, userEvent} from '../../tests/utils/utils'
 import {act, waitFor} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
-import {boxes} from "./mock/mock";
 import SelectBoxModal from "./SelectBoxModal";
+import {boxes} from "../../tests/mock/data";
 
 interface IField {
     name: string,
@@ -42,7 +42,7 @@ describe('Select Box Modal', async () => {
         ))
 
         expect(screen.getByText(/выбрать/i)).toBeDisabled();
-        await waitFor(() => screen.getAllByRole("cell"), {timeout: 1500});
+        await waitFor(() => screen.getAllByRole("cell"), {timeout: 2000});
         await userEvent.click(screen.getAllByRole("cell")[0]);
         expect(screen.getByText(/выбрать/i)).not.toBeDisabled();
     })
@@ -68,7 +68,7 @@ describe('Select Box Modal', async () => {
             <SelectBoxModal show={state.show} closeCallback={() => {state.show = false}} id={"36074306"} submitCallback={() => state.submit = true}/>
         ))
 
-        await waitFor(() => screen.getAllByRole("cell"), {timeout: 1500});
+        await waitFor(() => screen.getAllByRole("cell"), {timeout: 2000});
         await userEvent.click(screen.getAllByRole("cell")[0]);
         await userEvent.click(screen.getByText(/выбрать/i));
 

@@ -171,7 +171,7 @@ const CreateBoxModal: FC<IModal> = ({ show, closeCallback }) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label className = "w-100">Стоимость (руб/сутки) <span style={{color:"red", fontWeight: 600}}>*</span>
+                        <Form.Label className = "w-100">Стоимость аренды <span style={{color:"red", fontWeight: 600}}>*</span>
                             <Form.Control
                                 name={"daily_cost"}
                                 value={data.daily_cost || ""}

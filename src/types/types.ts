@@ -51,22 +51,24 @@ export interface IRenterCreate {
  */
 
 export interface ICarResponse {
-    car_number: number;
     automobile_number: string;
     box_number: number;
+    receipt_number: number;
+    rental_start_date: string;
+
+    car_number: number;
     renter_full_name: string;
     model_name: string;
-    rental_start_date: string;
-    receipt_number: number;
 }
 
 export interface ICarCreate {
     automobile_number: string;
     box_number: number;
+    receipt_number: number;
+    rental_start_date: string;
+
     id_renter: number | null;
     id_model: number | null;
-    rental_start_date: string;
-    receipt_number: number;
 }
 
 export interface IChartElement {

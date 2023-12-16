@@ -1,4 +1,4 @@
-import {render, screen} from '../../utils/utils'
+import {render, screen} from '../../tests/utils/utils'
 import SuccessModal from "./SuccessModal";
 
 describe('SuccessModal', async () => {

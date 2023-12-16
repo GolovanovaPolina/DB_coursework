@@ -60,8 +60,6 @@ export class BoxesStore implements IBoxesStore {
     }
 
     async saveNewBox(box: IBoxCreate): Promise<void> {
-        console.log("Сохраняем объект", box);
-
         try {
             if (!box.id_model) {
                 const model: IModelCreate = {
@@ -78,7 +76,6 @@ export class BoxesStore implements IBoxesStore {
                 await this.rootStore.modelsStore.loadAll();
             }
 
-            console.log("А теперь собранный бокс", box);
             await axios.post("/data-service/boxes/add", box);
 
             // ИЛИ this.boxesList.push(box)

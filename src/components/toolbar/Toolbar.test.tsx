@@ -1,6 +1,5 @@
-import {render, screen} from '../../utils/utils'
-import {act, fireEvent} from "@testing-library/react";
-import {BrowserRouter} from "react-router-dom";
+import {render, screen, userEvent} from '../../tests/utils/utils'
+import {act, fireEvent, waitFor} from "@testing-library/react";
 import Toolbar, {ButtonData} from "./Toolbar";
 import {FileMenuItemProps} from "./FileMenuItem";
 
@@ -36,40 +35,29 @@ const fileButtons: FileMenuItemProps[] = [
 
 describe('Toolbar', async () => {
     it('Все компоненты панели должны отображаться корректно', async () => {
-
         await act(async () => render(
                 <Toolbar fileButtons={fileButtons} buttons={buttons}/>,
-                {wrapper: BrowserRouter}
             )
         )
 
         for (let b of buttons) {
-            // кнопка есть.
             const btn =  screen.getByRole('button', {name: b.name});
             expect(btn).toBeInTheDocument()
-            // активность.
             b.disabled ? expect(btn).toBeDisabled() : expect(btn).not.toBeDisabled();
             fireEvent.mouseEnter(btn);
-            // всплывающая подсказка.
             expect(await screen.findByText(b.tooltip)).toBeInTheDocument();
         }
-
-
     })
 
     it('Выпадающий список справок должен открываться по клику на кнопку получения справок', async () => {
-
         await act(async () => render(
                 <Toolbar fileButtons={fileButtons} buttons={buttons}/>,
-                {wrapper: BrowserRouter}
             )
         )
 
-        const reportBtn = screen.getByRole('button', {name: "Получить справку"});
-        await act(async  () => reportBtn.click());
+        await userEvent.click(screen.getByRole('button', {name: "Получить справку"}))
 
-        expect(await screen.findByRole('menu')).toBeInTheDocument()
-
+        await waitFor(() => screen.getByRole('menu'));
         for (let button of fileButtons) {
             expect(await screen.findByText(button.title)).toBeInTheDocument()
         }

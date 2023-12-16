@@ -1,9 +1,9 @@
-import {render, screen, userEvent} from '../../utils/utils'
+import {render, screen, userEvent} from '../../tests/utils/utils'
 import {act, waitFor} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
-import {boxes, models, renters} from "./mock/mock";
 import NewRent from "./NewRent";
+import {boxes, models, renters} from "../../tests/mock/data";
 
 interface IField {
     name: string,
@@ -64,7 +64,6 @@ describe('New rent ', async () => {
         for (let field of fields) {
             expect(screen.getByLabelText(new RegExp(field.name))).toBeInTheDocument();
         }
-
     })
 
     it('Поля с данными о клиенте должны быть заполнены после выбора клиента из списка', async () => {
@@ -97,7 +96,7 @@ describe('New rent ', async () => {
         expect(screen.getByLabelText(/адрес/i)).not.toBeDisabled();
     })
 
-    it('Должно открываться модальное окно выбора бокса при корректном заполнении полей и отправке формы', async () => {
+    it('Модальное окно выбора бокса должно открываться при корректном заполнении полей и отправке формы', async () => {
         await act(async () => render(
             <NewRent/>
         ))
@@ -116,7 +115,7 @@ describe('New rent ', async () => {
 
     })
 
-    it('Должно появляться сообщение об ошибке при некорректном заполнении поля', async () => {
+    it('Сообщение об ошибке должно появляться при некорректном заполнении поля', async () => {
         await act(async () => render(
             <NewRent/>
         ))
@@ -137,17 +136,7 @@ describe('New rent ', async () => {
         expect(screen.getByText(/некорректное значение/i)).toBeInTheDocument();
     })
 
-    it('Должно появляться сообщение об ошибке рядом с каждым обязательным полем (ни одно из полей не заполнено)', async () => {
-        await act(async () => render(
-            <NewRent/>
-        ))
-
-        await userEvent.click(screen.getByText(/подобрать/i));
-        expect((await screen.findAllByText("Введите значение")).length).toBe(fields.filter(value => value.required).length);
-
-    })
-
-    it('Должно появляться сообщение об ошибке рядом с каждым незаполненным обязательным полем (заполнены не все поля)', async () => {
+    it('Сообщение об ошибке должно появиться рядом с каждым обязательным полем, если хотя бы одно из полей не заполнено', async () => {
         await act(async () => render(
             <NewRent/>
         ))

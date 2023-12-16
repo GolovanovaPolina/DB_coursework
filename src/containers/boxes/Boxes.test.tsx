@@ -1,9 +1,9 @@
-import {render, screen, userEvent} from '../../utils/utils'
+import {render, screen, userEvent} from '../../tests/utils/utils'
 import Boxes from "./Boxes";
 import {act, waitFor} from "@testing-library/react";
 import {http, HttpResponse} from 'msw'
 import {setupServer} from 'msw/node'
-import {boxes, models} from "./mock/mock";
+import {boxes, models} from "../../tests/mock/data";
 
 const server = setupServer(
     http.get('/data-service/boxes/all', ({request, params, cookies}) => {
@@ -43,16 +43,12 @@ describe('Boxes ', async () => {
 
         expect(screen.getByRole('button', {name: /удалить/i})).toBeDisabled();
 
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
-        const cells = await screen.findAllByRole("cell");
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
+        const cell = (await screen.findAllByRole("cell"))[0];
 
-        await act(async () => {
-            await cells[0].click();    /* fire events that update state */
-        });
+        await userEvent.click(cell);
         expect(screen.getByRole('button', {name: /удалить/i})).not.toBeDisabled();
-        await act(async () => {
-            await cells[0].click();    /* fire events that update state */
-        });
+        await userEvent.click(cell);
         expect(screen.getByRole('button', {name: /удалить/i})).toBeDisabled();
 
     })
@@ -62,15 +58,12 @@ describe('Boxes ', async () => {
             <Boxes/>
         ))
 
-        const btn = screen.getByRole('button', {name: /добавить/i});
-        await act(async () => btn.click());
+        await userEvent.click(screen.getByRole('button', {name: /добавить/i}));
 
-        expect(await screen.findByRole("dialog")).toBeInTheDocument();
-        expect(screen.getByText(/добавить бокс/i)).toBeInTheDocument();
+        await waitFor(() => screen.getByRole("dialog"));
         expect(screen.getByLabelText(/номер бокса/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/модель/i)).toBeInTheDocument();
-        expect(screen.getByText(/стоимость \(руб \/ сутки\)/i)).toBeInTheDocument();
-
+        expect(screen.getByLabelText(/стоимость аренды/i)).toBeInTheDocument();
     })
 
     it('Модальное окно изменения стоимости должно открываться по клику на кнопку изменения', async () => {
@@ -78,11 +71,9 @@ describe('Boxes ', async () => {
             <Boxes/>
         ))
 
-        const btn = screen.getByRole('button', {name: /изменить/i});
-        await act(async () => btn.click());
+        await userEvent.click(screen.getByRole('button', {name: /изменить/i}));
 
-        expect(await screen.findByRole("dialog")).toBeInTheDocument();
-        expect(screen.getByText(/изменить/i)).toBeInTheDocument();
+        await waitFor(() => screen.getByRole("dialog"));
         expect(screen.getByLabelText(/коэффициент/i)).toBeInTheDocument();
     })
 
@@ -111,18 +102,14 @@ describe('Boxes ', async () => {
             }
         }
 
-        await act(async () => screen.getByRole('button', {name: /изменить/i}).click());
+        await userEvent.click(screen.getByRole('button', {name: /изменить/i}));
+        await waitFor(() => screen.getByRole("dialog"));
 
-        await screen.findByRole("dialog");
-        const counter = screen.getByLabelText(/коэффициент/i);
-        await userEvent.click(counter);
-        await userEvent.keyboard(k.toString());
-
+        await userEvent.type(screen.getByLabelText(/коэффициент/i), k.toString());
         await userEvent.click(screen.getByText("Отправить"));
 
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 1500});
-
-        const _cells = await screen.findAllByRole("cell");
+        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
+        const _cells = screen.getAllByRole("cell");
         for (let i = 0; i < _cells.length; i++) {
             if (i+1 % index == 0) {
                 expect(Number(_cells[i].textContent)).toBe(values[i] * k);

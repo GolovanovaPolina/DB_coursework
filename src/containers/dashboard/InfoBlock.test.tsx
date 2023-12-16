@@ -1,4 +1,4 @@
-import {render, screen} from '../../utils/utils'
+import {render, screen} from '../../tests/utils/utils'
 import {act} from "@testing-library/react";
 import {InfoBlock} from "./InfoBlock";
 

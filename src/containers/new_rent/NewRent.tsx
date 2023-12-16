@@ -232,7 +232,7 @@ const NewRent = () => {
     return (
         <>
             <Container>
-                <Form>
+                <Form data-testid={"new-rent-form"}>
                     <FormGroup className="mb-3">
                         <FormLabel className="w-100">
                             Клиент
