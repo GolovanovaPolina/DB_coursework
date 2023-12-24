@@ -21,6 +21,7 @@ function Table<T extends Object>({ columns, data, selectRowCallback }: ITable<T>
                         [action.id]: action.value,
                     };
 
+                    console.log(action.value ? +action.id : -1);
                     selectRowCallback(action.value ? +action.id : -1);
                 }
 

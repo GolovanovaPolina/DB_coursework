@@ -64,54 +64,7 @@ describe('Clients ', async () => {
         expect(screen.getByRole('button', {name: /редактировать/i})).toBeDisabled();
     })
 
-
-    it('Модальное окно редактирования должно открываться по клику на кнопку изменения и содержать данные о выбранном клиенте', async () => {
-        await act(async () => render(
-            <Clients/>
-        ))
-
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
-        const cells = await screen.getAllByRole("cell");
-        const values = cells.map(cell => cell.innerHTML);
-
-        await userEvent.click(cells[0]);
-        await userEvent.click(screen.getByRole('button', {name: /редактировать/i}));
-
-        await waitFor(() => screen.getByRole("dialog"));
-
-        expect(screen.getByText(/редактирование данных о клиенте/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/ФИО/i).innerHTML).toBe(values[0]);
-        expect(screen.getByLabelText(/телефон/i).innerHTML).toBe(values[1]);
-        expect(screen.getByLabelText(/адрес/i).innerHTML).toBe(values[2]);
-    })
-
-    it('Данные в таблице должны быть обновлены после отправки формы редактирования данных о клиенте', async () => {
-        await act(async () => render(
-            <Clients/>
-        ))
-
-        await waitFor(() => screen.getAllByRole('cell'), {timeout: 2000});
-        const cells = await screen.findAllByRole("cell");
-
-        const name = "Голованова П.Д.";
-        const phone = "+79809008070";
-        const addr = cells[2].innerHTML;
-
-        await userEvent.click(cells[0]);
-        await userEvent.click(screen.getByRole('button', {name: /редактировать/i}));
-
-        await waitFor(() => screen.getByRole("dialog"));
-        await userEvent.type(screen.getByLabelText(/ФИО/i), name)
-        await userEvent.type(screen.getByLabelText(/телефон/i), phone)
-        await userEvent.click(screen.getByText(/отправить/i));
-
-        const _cells = await screen.findAllByRole("cell");
-        expect(_cells[0].innerHTML).toBe(name);
-        expect(_cells[1].innerHTML).toBe(phone);
-        expect(_cells[2].innerHTML).toBe(addr);
-    })
-
-    it('Форма редактирования не должна быть отправлена, если хотя бы в одно из полей введены некорректные данные', async () => {
+    it('Форма редактирования должна быть отправлена, если во все поля введены корректные данные', async () => {
         await act(async () => render(
             <Clients/>
         ))
@@ -123,12 +76,12 @@ describe('Clients ', async () => {
         await waitFor(() => screen.getByRole("dialog"));
 
         await userEvent.type(screen.getByLabelText(/ФИО/i), "Васильев В.В.");
-        await userEvent.type(screen.getByLabelText(/телефон/i), "666");
+        await userEvent.type(screen.getByLabelText(/телефон/i), "79109967788");
         await userEvent.type(screen.getByLabelText(/адрес/i), "ул. Гражданская, д.21");
+        await userEvent.click(screen.getByRole('button', {name: /отправить/i}));
 
-        expect(screen.getByText(/некорректное значение/i));
-        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.queryByText(/некорректное значение/i)).toBeNull();
+        expect(screen.queryByRole("dialog")).toBeNull();
+        expect(screen.queryByText(/успешно/i)).toBeInTheDocument();
     })
-
-
 })

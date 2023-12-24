@@ -35,6 +35,7 @@ const Boxes = () => {
     };
 
     const selectRowHandler = (index: number) => {
+        console.log("boxes", index)
         boxesStore.setSelectedBox(index);
     };
 
