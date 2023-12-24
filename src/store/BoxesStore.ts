@@ -38,8 +38,6 @@ export class BoxesStore implements IBoxesStore {
 
     async deleteSelectedBox() {
         try {
-            console.log("Удаляем бокс №", this.selectedBoxId);
-
             await axios.delete(`/data-service/boxes/delete/${this.selectedBoxId}`);
 
             // ИЛИ delete this.boxesList[+this.selectedBoxesIdx];
@@ -66,10 +64,7 @@ export class BoxesStore implements IBoxesStore {
                     name: box.model_name,
                 };
 
-                console.log("Сохраняем модель", model);
-
                 const modelResponse = await axios.post<IModelResponse>("/data-service/models/add", model);
-
                 runInAction(() => {
                     box.id_model = modelResponse.data.id_model;
                 });

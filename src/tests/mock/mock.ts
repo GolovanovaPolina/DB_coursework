@@ -24,6 +24,7 @@ export class MockData {
     }
 
     get cars(): ICarResponse[] {
+        console.log("cars", this._cars)
         return this._cars.map(value => ({
             ...value,
             model_name: this._models.find(m => m.id_model === value.id_model)?.name || "",

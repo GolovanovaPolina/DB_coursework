@@ -33,7 +33,6 @@ describe('Dashboard ', async () => {
             <Dashboard />
         ))
 
-
         expect(screen.getByText(/Всего боксов/)).toBeInTheDocument();
         expect(screen.getByText(/Свободно/)).toBeInTheDocument();
         expect(screen.getByText(/Всего автомобилей/)).toBeInTheDocument();

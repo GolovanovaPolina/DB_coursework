@@ -34,8 +34,8 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
                 <Bar options={chartBarStore.options} data={chartBarStore.data}></Bar>
             </Col>
             <Col xs={{ span: 3, offset: 1 }}>
-                <InfoBlock desc={"Всего боксов"} count={chartBarStore.totalBoxNumber} />
-                <InfoBlock desc={"Свободно"} count={`${chartBarStore.freeBoxPercent}%`} />
+                <InfoBlock desc={"Всего боксов"} count={chartBarStore.totalBoxNumber}/>
+                <InfoBlock desc={"Свободно"} count={`${chartBarStore.freeBoxPercent}%`}/>
                 <InfoBlock desc={"Всего автомобилей"} count={chartBarStore.totalCarNumber} />
             </Col>
         </Row>

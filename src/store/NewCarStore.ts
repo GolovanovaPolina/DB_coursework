@@ -34,8 +34,6 @@ export class NewCarStore implements ICarsStore {
     };
 
     async saveNewCar(data: ICarCreateData): Promise<void> {
-        console.log("Сохраняем объект", data);
-
         const car: ICarCreate = {
             automobile_number: `${data.automobileNumber} | ${data.automobileNumberRegion}`,
             box_number: +data.boxId!,
@@ -53,23 +51,15 @@ export class NewCarStore implements ICarsStore {
                     address: data.renterAddress,
                 };
 
-                console.log("Сохраняем клиента", renter);
-
                 const clientResponse = await axios.post<IRenterResponse>("/data-service/renters/add", renter);
-
                 runInAction(() => {
                     car.id_renter = clientResponse.data.id_renter;
                 });
                 await this.rootStore.clientsStore.loadAll();
             }
 
-            console.log("А теперь собранную машину", car);
             await axios.post("/data-service/cars/add", car);
-
             await this.rootStore.carsStore.loadAll();
-
-            // ИЛИ this.boxesList.push(data)
-
             runInAction(() => {
                 this.successMessage = "Аренда машины успешно зарегистрирована.";
             });
