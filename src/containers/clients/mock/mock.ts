@@ -12,8 +12,8 @@ export class RentersMockData {
 
         if (!renter) return;
         renter.full_name = value.full_name;
-        renter.phone = value.full_name;
-        renter.address = value.full_name;
+        renter.phone = value.phone;
+        renter.address = value.address;
     }
 
     private _renters: Renter[] = renters;
