@@ -22,7 +22,7 @@
     "js-file-download": "^0.4.12",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
-    "msw": "^2.0.8",
+    "msw": "^2.2.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",
